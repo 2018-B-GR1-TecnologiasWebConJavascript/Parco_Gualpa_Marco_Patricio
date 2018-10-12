@@ -1,0 +1,7 @@
+{
+  "nombre":"Marco",
+  "edad": 21,
+  "casado":null,
+  "tieneHijos":false,
+  "mascotas":{"nombre":"Vale"}
+}
