@@ -10,7 +10,7 @@ var dato= undefined;
 var fechaNacimiento = new Date();
 var marco={"nombre":"marco",
     "segundoNombre":"Patricio",
-    apellidoPaterno:'Eguez',
+    apellidoPaterno:'Parco',
     apellidoMaterno:'Gualpa',
     edad:21,
     casado:false,
@@ -87,4 +87,5 @@ if(undefined){ // falsy
     console.log("Si")
 }else{
     console.log("No")
+    
 }
