@@ -87,5 +87,5 @@ if(undefined){ // falsy
     console.log("Si")
 }else{
     console.log("No")
-    
+
 }
