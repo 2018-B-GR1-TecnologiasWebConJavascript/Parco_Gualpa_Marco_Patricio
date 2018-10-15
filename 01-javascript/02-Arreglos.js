@@ -26,7 +26,7 @@ console.log(arregloDos);
 var arregloUnoDos=[1,2];
 var arregloSeis= [6];
 //destructuracion de arreglos
-console.log
+console.log("")
 //[1,2,3,4,5,6,,8,9,10]
 var arregloTotal=[...arregloUnoDos];
 console.log(arregloTotal);
