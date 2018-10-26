@@ -1,0 +1,3 @@
+// version
+
+module.exports
