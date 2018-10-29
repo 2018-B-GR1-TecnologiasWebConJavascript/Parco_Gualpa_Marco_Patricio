@@ -89,9 +89,21 @@ function ejercicio(arreglotrings,callback){
                             error:err,
                         };
                         respuestas.push(respuesta);
+                        const estaCompletoArreglo = respuetas.length===arreglotrings.length;
+                        if(estaCompletoArreglo){
+                            callback(respuestas);
+                        }
                     }
                 )
 
             }
         )
 }
+
+ejercicio(
+    ['A','B','C'],
+        (respuetaEjercicio)=>{
+        console.log(respuetaEjercicio);
+        }
+);
+
