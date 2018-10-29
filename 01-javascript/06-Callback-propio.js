@@ -61,6 +61,8 @@ appendFile(
 });
 
 
+
+
 //['A','B','C']
 //0-A.txt  'A'
 //1-B.txt  'B'
@@ -89,7 +91,7 @@ function ejercicio(arreglotrings,callback){
                             error:err,
                         };
                         respuestas.push(respuesta);
-                        const estaCompletoArreglo = respuetas.length===arreglotrings.length;
+                        const estaCompletoArreglo = respuetas.length === arreglotrings.length;
                         if(estaCompletoArreglo){
                             callback(respuestas);
                         }
