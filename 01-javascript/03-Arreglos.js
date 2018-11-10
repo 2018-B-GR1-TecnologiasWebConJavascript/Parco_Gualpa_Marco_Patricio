@@ -22,7 +22,6 @@ var indiceSiete= arreglosDos.indexOf(7);    //devuelve el indice de la primera o
 console.log(arregloUno);
 console.log(arregloDos);
 
-//
 var arregloUnoDos=[1,2];
 var arregloSeis= [6];
 //destructuracion de arreglos
