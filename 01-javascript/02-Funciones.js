@@ -80,7 +80,7 @@ console.log(saludar("Marco"));
 */
 
 function saludar(nombre, funcion) {
-    return `Hola ${funcion(nombre)}`;
+    return `Hola ${funcion(nombre)}`; //templete string
 }
 
 function nombreEnMayusculas(nombre) {
@@ -92,10 +92,16 @@ function nombreEnMinusculas(nombre) {
 function nombreConPuntoAlFinal(nombre) {
     return nombre + ".";
 }
+function primeraLetraEnMayuscula(nombre){
+    var primeraLetra = nombre[0].toUpperCase();
+    var restoPalabra = nombre.slice(1,nombre.length);
+    return primeraLetra+restoPalabra;
+}
 
 console.log(saludar("Marco",nombreEnMayusculas));
 console.log(saludar("Marco",nombreEnMinusculas));
-console.log(saludar("Marco",nombreConPuntoAlFinal));
+console.log(saludar("marco",nombreConPuntoAlFinal));
+console.log(saludar("marco",primeraLetraEnMayuscula));
 
 var arreglo=[1,2,3];
 
