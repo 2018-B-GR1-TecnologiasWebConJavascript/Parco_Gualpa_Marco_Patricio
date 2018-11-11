@@ -87,6 +87,3 @@ arreglo.findIndex(
         return 2;
     }
 );
-
-
-nsbnjb
