@@ -5,6 +5,7 @@ function holaMundo(){
 }
 
 console.log(holaMundo());
+
 function sumarDosNumeros(numeroUno,numeroDos) {
     var numeroUnoEsValido =typeof numeroUno=='number';
     var numeroDosEsValido =typeof numeroDos=='number';
@@ -15,9 +16,20 @@ function sumarDosNumeros(numeroUno,numeroDos) {
         return 0;
     }
 }
+
 console.log(sumarDosNumeros(1,2, 2,3,4,4));
 console.log(sumarDosNumeros(true,0,undefined,null,"ASD",6,7));
-function sumarNNumeros(...numeros) {  //destruccturacion de argumentos
+
+function sumarNNumeros(...numeros) {
+    var resultado = calcularResultadoSumarNNumeros(numeros);
+    if (resultado.esValido) {
+        return resultado.suma;
+    } else {
+        return 0;
+    }
+}
+
+/*function sumarNNumeros(...numeros) {  //destruccturacion de argumentos
     var suma=0;
     var todosLosNumerosSonValidos=true;
     for(var i=0;i<numeros.length;i++){
@@ -36,8 +48,7 @@ function sumarNNumeros(...numeros) {  //destruccturacion de argumentos
     }
 
     //console.log(numeros);
-}
-console.log(sumarNNumeros(true,1,2,3));
+}*/
 
 function calcularResultadoSumarNNumeros(numeros) {
     var suma = 0;
@@ -58,18 +69,23 @@ function calcularResultadoSumarNNumeros(numeros) {
     return resultado;
 }
 
-//function saludar(nombre) {
-//  return `Hola ${nombre.toUpperCase()} `;
-//}
+console.log(sumarNNumeros(true,1,2,3));
+
+/*
+function saludar(nombre) {
+return `Hola ${nombre.toUpperCase()}`;
+}
 
 console.log(saludar("Marco"));
-function saludar(nombre,funcion) {
-    return `Hola ${funcion(nombre)} `;
-};
-console.log(saludar("Marco",));
+*/
+
+function saludar(nombre, funcion) {
+    return `Hola ${funcion(nombre)}`;
+}
+
 function nombreEnMayusculas(nombre) {
     return nombre.toUpperCase();
-};
+}
 function nombreEnMinusculas(nombre) {
     return nombre.toLowerCase();
 }
@@ -82,8 +98,9 @@ console.log(saludar("Marco",nombreEnMinusculas));
 console.log(saludar("Marco",nombreConPuntoAlFinal));
 
 var arreglo=[1,2,3];
+
 arreglo.findIndex(
     function (valorDelArreglo,indice,arreglo) {
         return 2;
     }
-);
+);//1

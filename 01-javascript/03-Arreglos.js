@@ -86,3 +86,11 @@ var marcoPatricioParco={
 };
 console.log(marcoPatricioParco);
 
+// Objetos
+ var atributosDelObjeto = Object.keys(marcoPatricioParco);
+ console.log(atributosDelObjeto);
+console.log(marcoPatricioParco["nombre"]);
+console.log(marcoPatricioParco[atributosDelObjeto[0]]); // validar campos
+
+
+
