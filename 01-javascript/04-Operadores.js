@@ -1,4 +1,4 @@
-function ejemplo() {}
+/*function ejemplo() {}
 var ejemploDos = function () {} //Anonymous function
 
 var arregloFunciones = [function (){
@@ -129,4 +129,93 @@ console.log(clonArregloNumeros);
 const resultadoSort = arregloNumeros.sort((a, b)=> a - b);
 const resultadoSortV2 = clonArregloNumeros.sort((a, b)=> b -a);
 console.log(resultadoSort);
-console.log(resultadoSortV2);
+console.log(resultadoSortV2);*/
+
+// operadores
+
+const arreglo = ['A', 'b', 'C'];
+
+const respuesta = arreglo
+    .forEach(
+        (valorActualDeLAIteracion, indice, arreglo) => {
+            console.log("Valor", valorActualDeLAIteracion);
+            console.log("Indice", indice);
+            console.log("Arreglo", arreglo);
+        }
+    );
+
+console.log(respuesta);
+arreglo.forEach(y => console.log(y));
+
+//map Muata el arreglo -> cambiar -> Reasignar nuevo arreglo
+const respuestaMap = arreglo
+    .map(valorActual => valorActual.toUpperCase());
+//.map(valorActual=>true); reasignaria all con true [true,true,true]
+console.log(arreglo);
+console.log(respuestaMap);
+const arregloNumeros = [9, 1, 3, 2, 5, 6, 4, 8, 7, 10];
+
+//filter
+const respuestaFilter = arregloNumeros
+    .filter(valorActual => valorActual > 5) //true all de arreglo false nada del arreglo
+    .map(n => n + 1)
+    .filter(n=>n>7)
+    .forEach(n=>console.log(n));
+
+console.log(respuestaFilter);
+
+// find
+const respuestaFindIndex=arregloNumeros
+    .findIndex(v=>v===7);
+    //.findIndex(v=>v.id===7);  // buscar objetos completos sabiendo solo un atributo
+console.log(arregloNumeros.indexOf(7));
+console.log(respuestaFindIndex);
+
+//find  encuentra el objeto que se encuentra en esa posicion
+const respuestaFind =arregloNumeros
+    .findIndex(v=>v===7);
+console.log(respuestaFind);
+
+//some
+const respuestaSome=arregloNumeros
+    .some(n=>n%11===0);
+console.log(respuestaSome);
+
+//every
+const respuestaEvery = arregloNumeros
+    .every(n=>n<5);
+console.log(respuestaEvery);
+
+//reduce operaciones con alguna variable interna
+const respuestaReduce=arregloNumeros
+    .reduce(
+        (valorActualDeLaOperacion,valorActualDelArreglo)=>{
+            return valorActualDeLaOperacion+valorActualDelArreglo;
+        },
+        0 //valor que inicia suma=0;
+    );
+
+console.log(respuestaReduce);
+
+const respuestaReduce2=arregloNumeros
+    .reduce((a,b)=> a-b,100);
+    //.reduce((a,b)=>a+b.sueldo,0);
+console.log(respuestaReduce2);
+
+/*if(1==='1'){
+    console.log('Es verdad');
+}else{
+    console.log('No es verdad');
+}*/
+
+const respuestaReduce3=arregloNumeros
+    .reduce((acumulado,valorActual)=>{
+        if(valorActual>7){
+            return acumulado+valorActual
+        }else{
+            return acumulado
+        }
+    },0
+
+    );
+console.log(respuestaReduce3);
