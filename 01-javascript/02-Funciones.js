@@ -110,3 +110,95 @@ arreglo.findIndex(
         return 2;
     }
 );//1
+
+function restar(a,b){
+    return a-b;
+}
+console.log(restar(4,2));//Ejecucion 2  devuelve unifined or return
+console.log(typeof restar);//Tipo function
+console.log(restar); // definicion de la funcion
+
+//Anonymous Function
+function nombre(){
+
+}
+
+/*function () {
+
+}*/ // no existe declaracion
+
+var ejemplo = function () {
+
+}; // funcion anonima
+
+var marco={
+    trabajo:function () {
+        //implementacion
+    }
+};
+
+marco.trabajo();
+
+var arreglo =[
+    function () {
+        //implementacion
+    }
+];
+
+arreglo[0]();
+
+saludar("Marco",function (nombre) {
+   return nombre+ "Marco"
+}); //enviar la funcion como parametros
+
+//tipos de variables
+
+var variable;
+
+let variableDos=2;
+variableDos=3;
+const edad=29;
+//edad=30;
+
+const marco = {
+    nombre:'Marco'
+};
+marco.nombre='patricio';
+/*marco={
+    nombre:'Pato'
+}*/
+
+const arregloUnoDos=[1,2];
+arregloUnoDos[0]=3;
+//arregloUnoDos=[1,2,3,4];
+
+const nombre1='Marco';
+//nombre1='Pato';
+
+const casado=false;
+//casado=true;
+
+const hijos=null;
+//hijos=2;
+
+const ganarDinero=function () {
+    return 1;
+};
+/*ganarDinero=function () {
+    return 2;
+};*/
+
+
+//NUNCA MAS UTILIZAR FUNCIONES ANONIMAS
+const elevarAlCuadrado=function (numero) {
+    return numero* numero;
+};
+
+// FAT ARROW FUNCTION  =>
+const elevarAlCuadrado=(numero)=>{
+    return numero * numero;
+};
+
+const elevarAlCuadradoV2=(numero)=> numero * numero;
+const elevarAlCuadradoV3=numero=> numero * numero;
+const restarNumeros=(numeroUno,numeroDos)=>numeroUno-numeroDos;
