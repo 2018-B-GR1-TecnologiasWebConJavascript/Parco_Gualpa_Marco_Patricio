@@ -4,6 +4,7 @@ const fs = require('fs');
 const express = require('express');
 //console.log(fs);
 //console.log(express);
+
 const nombreArchivo='ejemplo.txt';
 const contenidoArchivo = new Date();
 
@@ -32,4 +33,3 @@ fs.readFile('nombreArchivo','utf-8',
       }
 });
 console.log('Fin');
-
