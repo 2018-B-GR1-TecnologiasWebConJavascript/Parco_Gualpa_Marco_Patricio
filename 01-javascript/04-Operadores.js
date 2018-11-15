@@ -153,7 +153,7 @@ const respuestaMap = arreglo
 //.map(valorActual=>true); reasignaria all con true [true,true,true]
 console.log(arreglo);
 console.log(respuestaMap);
-const arregloNumeros = [9, 1, 3, 2, 5, 6, 4, 8, 7, 10];
+let arregloNumeros = [9, 1, 3, 2, 5, 6, 4, 8, 7, 10];
 
 //filter
 const respuestaFilter = arregloNumeros
@@ -219,3 +219,12 @@ const respuestaReduce3=arregloNumeros
 
     );
 console.log(respuestaReduce3);
+
+// sort
+const clonArregloNumeros=JSON.parse(JSON.stringify(arregloNumeros));
+console.log(clonArregloNumeros);
+const resultadoSort = arregloNumeros.sort((a,b)=>a-b);
+ //arregloNumeros = [9, 1, 3, 2, 5, 6, 4, 8, 7, 10];
+const resultadoSortV2 = clonArregloNumeros.sort((a,b)=>b-a);
+console.log(resultadoSort);
+console.log(resultadoSortV2);
