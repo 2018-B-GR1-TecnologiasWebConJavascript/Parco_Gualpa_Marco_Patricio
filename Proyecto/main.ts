@@ -134,6 +134,7 @@ function buscarRestauranteDB(nombreRestaurante) {
                 'utf-8',
                 (error, contenidoArchivo) => {
                     if (error) {
+
                         reject();
                     } else {
                         const dbRestaurantes = JSON.parse(contenidoArchivo);
