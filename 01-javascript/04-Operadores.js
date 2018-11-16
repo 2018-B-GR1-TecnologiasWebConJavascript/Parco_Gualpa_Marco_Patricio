@@ -166,8 +166,8 @@ console.log(respuestaFilter);
 
 // find
 const respuestaFindIndex=arregloNumeros
-    .findIndex(v=>v===7);
-    //.findIndex(v=>v.id===7);  // buscar objetos completos sabiendo solo un atributo
+    //.findIndex(v=>v===7);
+    .findIndex(v=>v.id===7);  // buscar objetos completos sabiendo solo un atributo
 console.log(arregloNumeros.indexOf(7));
 console.log(respuestaFindIndex);
 

@@ -25,6 +25,16 @@ const ingresoRestaurante = [
         type: 'input',
         name: 'direccionRestaurante',
         message: "Direccion de ubicacion del Restaurante ?"
+    },
+    {
+        type: 'input',
+        name: 'ingresoMesual',
+        message: " Cual es el ingreso Mensual?"
+    },
+    {
+        type: 'input',
+        name: 'nombreCoordinador',
+        message: "Nombre del coordinador jefe del restaurante"
     }
 ];
 
@@ -35,24 +45,6 @@ const buscarRestaurante = [
         message: "Cual es el nombre del Restaurante que desea buscar?"
     }
 ];
-
-const nuevoNombreRestaurante = [
-    {
-        name: 'nuevoNombreRestaurante',
-        type: 'input',
-        message: "Ingrese el nuevo nombre?"
-    }
-];
-
-const nuevaDireccionRestaurante = [
-    {
-        name: 'nuevoDireccionRestaurante',
-        type: 'input',
-        message: "Ingrese el nuevo direccion?"
-    }
-];
-
-
 
 function archivoBaseDatos() {
     return new Promise(
@@ -78,7 +70,7 @@ function archivoBaseDatos() {
     );
 }
 
-function agregarRestauranteDB(restaurante) {
+const agregarRestauranteDB=(restaurante) =>{
     return new Promise(
         (resolve, reject) => {
             fs.readFile('fdbb.json',
@@ -96,7 +88,7 @@ function agregarRestauranteDB(restaurante) {
                                 if (error) {
                                     reject(error);
                                 } else {
-                                    resolve({mensaje: "Restaurante ingresado OK"});
+                                    resolve();
                                 }
                             }
                         );
@@ -105,7 +97,8 @@ function agregarRestauranteDB(restaurante) {
                 });
         }
     );
-}
+};
+
 
 
 function listarRestauranteDB(nombreArchivo) {
@@ -149,61 +142,6 @@ function buscarRestauranteDB(nombreRestaurante) {
     );
 }
 
-function actualizarRestauranteDB(nombreRestaurante,nuevoNombre,nuevaDireccion) {
-    return new Promise(
-        (resolve, reject) => {
-            fs.readFile('fdbb.json',
-                'utf-8',
-                (error, contenidoArchivo) => {
-                    if (error) {
-                        reject();
-                    } else {
-                        const dbRestaurantes = JSON.parse(contenidoArchivo);
-                        //dbRestaurantes.restaurantes.findIndex(v=>v.nombreRestaurante===nombreRestaurante);
-                        const encontro = dbRestaurantes.restaurantes.findIndex(v=>v.nombreRestaurante===nombreRestaurante);
-                        if (encontro===-1) {
-                            console.log("No Encontrado");
-                        } else {
-                            console.log("Encontrado");
-                            dbRestaurantes.restaurantes.forEach((v)=> {v.nombreRestaurante=nuevoNombre; v.direccionRestaurante=nuevaDireccion});
-                            console.log('Datos actualizados correctamente')
-                        }
-                    }
-                });
-        }
-    );
-}
-
-
-function eliminarRestauranteDB(nombreRestaurante) {
-    return new Promise(
-        (resolve, reject) => {
-            fs.readFile('fdbb.json',
-                'utf-8',
-                (error, contenidoArchivo) => {
-                    if (error) {
-                        reject();
-                    } else {
-                        const dbRestaurantes = JSON.parse(contenidoArchivo);
-                        //dbRestaurantes.restaurantes.findIndex(v=>v.nombreRestaurante===nombreRestaurante);
-                        const encontro = dbRestaurantes.restaurantes.findIndex(v=>v.nombreRestaurante===nombreRestaurante);
-                        if (encontro===-1) {
-                            console.log("No Encontrado");
-                        } else {
-                            console.log("Encontrado");
-                            dbRestaurantes.restaurantes.splice(nombreRestaurante.indexOf(),nombreRestaurante.indexOf());
-                            console.log("Eliminado");
-                        }
-                    }
-                });
-        }
-    );
-}
-
-
-
-
-
 
 async function main() {
     try {
@@ -219,29 +157,35 @@ async function main() {
             case 'Ingresar nuevo Restaurante':
                 console.log('HII');
                 const respuestaIngresoDatosRestaurante = await inquirer.prompt(ingresoRestaurante);
-                const respuestaAgregarRestaurante = await agregarRestauranteDB(respuestaIngresoDatosRestaurante);
+                agregarRestauranteDB(respuestaIngresoDatosRestaurante)
+                    .then(
+                        (contenido) => {
+                            console.log("IIIIIII   ok", contenido);
+                        }
+                    )
+                    .catch(
+                        (err)=>{
+                            console.log('Ingresado incorrectamente',err);
+                        }
+
+                    );
+                /*const respuestaAgregarRestaurante = await agregarRestauranteDB(respuestaIngresoDatosRestaurante);
                 console.log(respuestaAgregarRestaurante);
-                console.log(respuestaAgregarRestaurante);
+                console.log(respuestaAgregarRestaurante);*/
                 main();
                 break;
             case 'Buscar Restaurante':
-                const vari = await inquirer.prompt(buscarRestaurante).then((a)=>{return a.nombreRestaurante});
-                console.log(vari);
-                const marc= await buscarRestauranteDB(vari);
-                console.log(marc);
-                main();
+                /*const respuestaNombreRestaurante = await inquirer.prompt();
+                console.log(respuestaNombreRestaurante);
+                await buscarRestauranteDB('sxxsd');
+                main();*/
                 break;
             case 'Actualizar Restaurante':
-                const nuevoNombre = await inquirer.prompt(nuevoNombreRestaurante).then((a)=>{return a.nombreRestaurante});
-                const nuevaDireccion=await inquirer.prompt(nuevaDireccionRestaurante).then((a)=>{return a.nombreRestaurante});
-                const nombreRestaurante = await inquirer.prompt(buscarRestaurante).then((a)=>{return a.nombreRestaurante});
-                await actualizarRestauranteDB(nombreRestaurante,nuevoNombre,nuevaDireccion);
+
 
                 break;
             case 'Eliminar Restaurante':
-                const eliminarRestaurante= await inquirer.prompt(buscarRestaurante).then((a)=>{return a.nombreRestaurante});
-                await eliminarRestauranteDB(eliminarRestaurante);
-                main();
+
                 break;
             default:
                 console.log("Adios... GOOD BAY");
