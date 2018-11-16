@@ -1,3 +1,4 @@
+declare var Promise;
 const inquirer = require('inquirer');
 const fs = require('fs');
 
@@ -143,6 +144,7 @@ function buscarRestauranteDB(nombreRestaurante) {
                         } else {
                             console.log("Encontrado");
                         }
+                        resolve(nombreRestaurante);
                     }
                 });
         }
@@ -160,6 +162,7 @@ function actualizarRestauranteDB(nombreRestaurante,nuevoNombre,nuevaDireccion) {
                     } else {
                         const dbRestaurantes = JSON.parse(contenidoArchivo);
                         //dbRestaurantes.restaurantes.findIndex(v=>v.nombreRestaurante===nombreRestaurante);
+                        //encontrar el indice promero el findIndex no sirve
                         const encontro = dbRestaurantes.restaurantes.findIndex(v=>v.nombreRestaurante===nombreRestaurante);
                         if (encontro===-1) {
                             console.log("No Encontrado");
@@ -202,12 +205,9 @@ function eliminarRestauranteDB(nombreRestaurante) {
 
 
 
-
-
-
 async function main() {
     try {
-        archivoBaseDatos();
+        await archivoBaseDatos();
         const respuesta = await inquirer.prompt(menuPrincipal);
         console.log(respuesta);
 
@@ -236,7 +236,7 @@ async function main() {
                 const nuevaDireccion=await inquirer.prompt(nuevaDireccionRestaurante).then((a)=>{return a.nombreRestaurante});
                 const nombreRestaurante = await inquirer.prompt(buscarRestaurante).then((a)=>{return a.nombreRestaurante});
                 await actualizarRestauranteDB(nombreRestaurante,nuevoNombre,nuevaDireccion);
-
+                main();
                 break;
             case 'Eliminar Restaurante':
                 const eliminarRestaurante= await inquirer.prompt(buscarRestaurante).then((a)=>{return a.nombreRestaurante});
