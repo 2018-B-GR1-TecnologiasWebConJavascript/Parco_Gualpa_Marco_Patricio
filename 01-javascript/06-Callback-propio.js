@@ -8,6 +8,7 @@ function appendFile(nombreArchivo, contenido, callback) {
     //2.1 Si existe , le añado el contenido al contenido del archivo
     //2.2 si no existe le creo al archivo con el contenido
     //**Devuelvam el contenido completo del aarchivo
+
     fs.readFile(
         nombreArchivo,
         'utf-8',
@@ -62,7 +63,6 @@ appendFile(
 
 
 
-
 //['A','B','C']
 //0-A.txt  'A'
 //1-B.txt  'B'
@@ -73,7 +73,8 @@ const respuesta={
     contenidoArchivo:'',
     error:'',
 };
-[respuesta,respuesta,respuesta,respuesta]
+//[respuesta,respuesta,respuesta,respuesta]
+
 function ejercicio(arreglotrings,callback){
     const respuestas=[];
     arreglotrings
@@ -91,7 +92,7 @@ function ejercicio(arreglotrings,callback){
                             error:err,
                         };
                         respuestas.push(respuesta);
-                        const estaCompletoArreglo = respuetas.length === arreglotrings.length;
+                        const estaCompletoArreglo = respuestas.length === arreglotrings.length;
                         if(estaCompletoArreglo){
                             callback(respuestas);
                         }
@@ -108,4 +109,3 @@ ejercicio(
         console.log(respuetaEjercicio);
         }
 );
-
