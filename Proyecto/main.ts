@@ -1,6 +1,9 @@
+import {Observable} from "rxjs";
+
 declare var Promise;
 const inquirer = require('inquirer');
 const fs = require('fs');
+const mergeMap = require('fs/operators').mergeMap;
 
 const menuPrincipal =
     {
@@ -254,3 +257,39 @@ async function main() {
 }
 
 main();
+
+
+//si existe el archivo leer sino crear
+//
+
+function leerBBD(){
+    return new Promise(
+        (resolve,reject)=>{
+            fs.readFile(
+                'fdbb.json',
+                'utf-8',
+                (error,contenidoArchivo)=>{
+                    if(error){
+                        resolve();
+                        mensaje: 'Base de datos no leida';
+                        base: null;
+                    }else{
+                        reject();
+                        mensaje: 'Base de datos leida';
+                        base: JSON.parse(contenidoArchivo);
+                    }
+                }
+            )
+        }
+    )
+}
+function crearDBB(){
+
+}
+fucntion inicializarBase():Observable<>{
+    const bdd
+};
+
+export interface Interface {
+
+}
