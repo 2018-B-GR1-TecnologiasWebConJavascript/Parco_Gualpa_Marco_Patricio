@@ -84,3 +84,7 @@ promesita$
 }
 
     )
+
+
+//si existe el archivo leer sino crear
+//
