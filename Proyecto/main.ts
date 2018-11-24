@@ -1,5 +1,9 @@
+import {Observable} from "rxjs";
+
+declare var Promise;
 const inquirer = require('inquirer');
 const fs = require('fs');
+const mergeMap = require('fs/operators').mergeMap;
 
 const menuPrincipal =
     {
@@ -133,6 +137,7 @@ function buscarRestauranteDB(nombreRestaurante) {
                 'utf-8',
                 (error, contenidoArchivo) => {
                     if (error) {
+
                         reject();
                     } else {
                         const dbRestaurantes = JSON.parse(contenidoArchivo);
@@ -143,6 +148,7 @@ function buscarRestauranteDB(nombreRestaurante) {
                         } else {
                             console.log("Encontrado");
                         }
+                        resolve(nombreRestaurante);
                     }
                 });
         }
@@ -160,6 +166,7 @@ function actualizarRestauranteDB(nombreRestaurante,nuevoNombre,nuevaDireccion) {
                     } else {
                         const dbRestaurantes = JSON.parse(contenidoArchivo);
                         //dbRestaurantes.restaurantes.findIndex(v=>v.nombreRestaurante===nombreRestaurante);
+                        //encontrar el indice promero el findIndex no sirve
                         const encontro = dbRestaurantes.restaurantes.findIndex(v=>v.nombreRestaurante===nombreRestaurante);
                         if (encontro===-1) {
                             console.log("No Encontrado");
@@ -202,12 +209,9 @@ function eliminarRestauranteDB(nombreRestaurante) {
 
 
 
-
-
-
 async function main() {
     try {
-        archivoBaseDatos();
+        await archivoBaseDatos();
         const respuesta = await inquirer.prompt(menuPrincipal);
         console.log(respuesta);
 
@@ -236,7 +240,7 @@ async function main() {
                 const nuevaDireccion=await inquirer.prompt(nuevaDireccionRestaurante).then((a)=>{return a.nombreRestaurante});
                 const nombreRestaurante = await inquirer.prompt(buscarRestaurante).then((a)=>{return a.nombreRestaurante});
                 await actualizarRestauranteDB(nombreRestaurante,nuevoNombre,nuevaDireccion);
-
+                main();
                 break;
             case 'Eliminar Restaurante':
                 const eliminarRestaurante= await inquirer.prompt(buscarRestaurante).then((a)=>{return a.nombreRestaurante});
@@ -253,3 +257,39 @@ async function main() {
 }
 
 main();
+
+
+//si existe el archivo leer sino crear
+//
+
+function leerBBD(){
+    return new Promise(
+        (resolve,reject)=>{
+            fs.readFile(
+                'fdbb.json',
+                'utf-8',
+                (error,contenidoArchivo)=>{
+                    if(error){
+                        resolve();
+                        mensaje: 'Base de datos no leida';
+                        base: null;
+                    }else{
+                        reject();
+                        mensaje: 'Base de datos leida';
+                        base: JSON.parse(contenidoArchivo);
+                    }
+                }
+            )
+        }
+    )
+}
+function crearDBB(){
+
+}
+fucntion inicializarBase():Observable<>{
+    const bdd
+};
+
+export interface Interface {
+
+}
