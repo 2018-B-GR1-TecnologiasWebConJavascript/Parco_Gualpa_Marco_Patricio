@@ -1,25 +1,32 @@
 // 01-tipo-variables.ts
 
-let edad: number|string = 13;
-edad= 25;
-edad= 'Nombre';
-let variableLocal: any=false;
+let edad: number | string = 13;
+edad = 25;
+edad = 'Nombre';
 
+let variableLocal: any = '';
+variableLocal = false;
 
-let nombre:string = 'marco';
+let nombre: string = 'marco';
 //duck typing->
 //nombre=13;
-let casado:boolean = false;
 
-let marco: { //Interface
-    nombre:string;
-    apellido?:string;
-}={// JSON
-    nombre:'Marco',
-    apellido:'Parco'
+//let casado:boolean = false;
+let casado = false;
+casado = true;
+casado = false;
+casado = null;
+casado = undefined;
+
+let marcop: { //Interface
+    nombre: string;
+    apellido?: string;
+} = {// JSON
+    nombre: 'Marco',
+    apellido: 'Parco'
 };
 
-let fechaNacimiento:Date = new Date();
+//let fechaNacimiento: Date = new Date();
 
 /*let promesa:Promise<number>=() =>{
     return new Promise(
@@ -28,63 +35,51 @@ let fechaNacimiento:Date = new Date();
     };
 );*/
 
+console.log(marcop);
+let numeros: number[] = [1, 2, 3];
+
+
 function saludar(
-    nombre:string, //requeridos
-    apellido?:string,//opcionales
-    ...otrosNombres:string[]):string |number {//Infinitos
+    nombre: string, //requeridos
+    apellido?: string,//opcionales
+    ...otrosNombres: string[]): string | number {//Infinitos
     return '';
 }
-let respuestaSaludar = <string> saludar('Marco','Parco','hbehd');
 
+let respuestaSaludar = <string> saludar('Marco', 'Parco', 'hbehd');
 //respuestaSaludar=1;
-//respuestaSaludar='';
+// Casteo   let respuestaSaludar:string = <string> saludar() ||  let respuestaSaludar = <string> saludar()
+respuestaSaludar = '';
 
-const saludo = (nombre:string):number =>{
+const saludo = (nombre: string): number => {
+    return 1;
+};
 
-}
+class Usuario {
+    public edad: string;
+    nombre: any;
 
-class Usuario{
-    public edad: string ;
-    nombre:any;
-    cosntructores(){
+    cosntructor() {
 
     }
 }
 
 const marcoIntancia = new Usuario();
-interface UsuarioInterface{
-    nombre:string;
-    apellido?:string;
+
+interface UsuarioInterface {
+    nombre: string;
+    apellido?: string;
 }
-class UsuarioDummy{
-    nombre:string;
-    apellido?:string;
+
+class UsuarioDummy {
+    nombre: string;
+    apellido?: string;
 }
-const marco:UsuarioDummy={
-    nombre:'Marco',
-    apellido:'Parco'
+
+const marco: UsuarioDummy = {
+    nombre: 'Marco',
+    apellido: 'Parco'
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-let numeros: number [] =[1,2,3,4];
+//let numeros: number [] = [1, 2, 3, 4];

@@ -56,6 +56,7 @@ numeros$
             console.log('Completado');
         }
     );
+
 const promesita =(correcto)=>{
     return new Promise(
         executor:(resolve, reject)=>{
