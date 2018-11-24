@@ -11,7 +11,7 @@ const disctinct = require('rxjs/operators').distinct;
 
  CALLBACK ----> devolver una respuesta asincrona, variable local
  PROMESA ----> callback hell(codigo ala derecha)y concatenar promesas, separar buena y malo
- OBSERVABLE ----> tratar cualquier tipo de dato como un mismo dato, pipe para transformar
+ OBSERVABLE ----> tratar cualquier tipo de dato como un mismo dato, pipe para transformard
 
 */
 const observableUno$ = rxjs.of(
