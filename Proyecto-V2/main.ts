@@ -1,7 +1,5 @@
-
-
-declare var require;
-declare var Promise;
+//declare var require;
+//declare var Promise;
 const inquirer = require('inquirer');
 const fs = require('fs');
 const rxjs = require('rxjs');
@@ -11,7 +9,7 @@ const map = require('rxjs/operators').map;
 const menuPrincipal =
     {
         type: 'list',
-        name: 'opcionesMenu',
+        name: 'opcionesdelMenu',
         message: 'Seleciona una opcion',
         choices: [
             'Ver Banquetes',
@@ -43,19 +41,43 @@ const preguntaBuscarBanquete = [
     }
 ];
 
+function main() {
+    console.log('Empezo');
+    inicializarBase()
+        .pipe(
+            preguntarOpcionesMenu(),
+            preguntarDatos(),
+            ejecutarAccion(),
+            actualizarBDD()
+        )
+        .subscribe(
+            (respuesta) => {
+                console.log(respuesta);
+            },
+            (error) => {
+                console.log('Error');
+            },
+            () => {
+                console.log('Completado');
+                //main();
+            }
+        );
+}
 
 
-function inicializarBase(){
+function inicializarBase() {
     const bddLeida$ = rxjs.from(leerDBB());
     return bddLeida$
         .pipe(
             mergeMap( //Respuesta Anterior Observable
-                (respuestaBDD) => {
+                (respuestaBDD: RespuestaLeerBDD) => {
                     if (respuestaBDD.bdd) {
-                        return rxjs.of(respuestaBDD);
+                        return rxjs
+                            .of(respuestaBDD);
                     } else {
                         //crear la base
-                        return rxjs.from(crearBDD());
+                        return rxjs
+                            .from(crearBDD());
 
                     }
                 }
@@ -77,13 +99,13 @@ function leerDBB() {
                         resolve({
                             mensaje: 'Base leida correctamente',
                             bdd: JSON.parse(contenido)
-                        })
+                        });
                     }
                 }
-            )
+            );
 
         }
-    )
+    );
 }
 
 function crearBDD() {
@@ -98,69 +120,77 @@ function crearBDD() {
                         reject({
                             mensaje: 'Error creando la Base de Datos',
                             error: 500
-                        })
+                        });
                     } else {
                         resolve({
                             mensaje: 'Base de Datos creada exitosamente',
                             bdd: JSON.parse(contenido)
-                        })
+                        });
                     }
                 }
-            )
+            );
         }
-    )
+    );
 }
 
-function guardarBDD(bdd){
+function guardarBDD(bdd: BaseDeDatos) {
     return new Promise(
-        (resolve,reject)=>{
+        (resolve, reject) => {
             fs.writeFile('dbb.json',
                 JSON.stringify(bdd),
-                (error)=>{
-                    if(error){
+                (error) => {
+                    if (error) {
                         reject({
-                            mensaje:'Error guardando la Base de Datos',
+                            mensaje: 'Error guardando la Base de Datos',
                             error: 500
                         });
-                    }else{
+                    } else {
                         resolve({
                             mensaje: 'Base de Datos guardada exitosamente',
                             bdd
-                        })
+                        });
 
                     }
                 }
-            )
+            );
         }
-    )
+    );
 }
 
-function preguntarOpcioneMenu(){
+function preguntarOpcionesMenu() {
     return mergeMap(
-        (respuesta)=>{
+        (respuesta: RespuestaLeerBDD) => {
             return rxjs
                 .from(inquirer.prompt(menuPrincipal))
                 .pipe(
                     map(
-                        (opcionMenu)=>{
-                            respuesta.opcionMenu=opcionMenu;
+                        (opcionMenu: OpcionesDelMenu) => {
+                            respuesta.opcionesdelMenu = opcionMenu;
                             return respuesta;
                         }
                     )
-                );
+                )
+                /*.pipe(
+                    mergeMap(
+                        (opcionMenu: OpcionesDelMenu) => {
+                            respuesta.opcionesdelMenu = opcionMenu;
+                            return respuesta;
+                        }
+                    )
+                );*/
         }
     );
 }
 
 
-interface respuestaLeerBDD {
+interface RespuestaLeerBDD {
     mensaje: string;
-    bdd?: baseDeDatos;
-    opcionMenu?: opcionesDelMenu;
-    banquete?:Banquete;
+    bdd?: BaseDeDatos;
+    opcionesdelMenu?: OpcionesDelMenu;
+    banquete?: Banquete;
 }
 
-export interface baseDeDatos {
+interface BaseDeDatos {
     banquetes: Banquete[];
 }
 
@@ -169,9 +199,10 @@ interface Banquete {
     costo: number
 }
 
-interface opcionesDelMenu{
-    opcionMenu:'Ver Banquetes'|'Ingresar nuevo Banquete'|'Buscar Banquetes '|'Actualizar Banquete'|'Eliminar Banquete'
+interface OpcionesDelMenu {
+    opcionesdelMenu: 'Ver Banquetes' | 'Ingresar nuevo Banquete' | 'Buscar Banquetes ' | 'Actualizar Banquete' | 'Eliminar Banquete'
 }
+
 /*
 function preguntarOpcionesMenu() {
     return mergeMap(
@@ -193,15 +224,15 @@ function preguntarOpcionesMenu() {
 
 function preguntarDatos() {
     return mergeMap(
-        (respuesta)=>{
-            switch (respuesta.opcionMenu.opcionMenu) {
+        (respuesta:RespuestaLeerBDD) => {
+            switch (respuesta.opcionesdelMenu.opcionesdelMenu) {
                 case 'Ingresar nuevo Banquete':
                     return rxjs
                         .from(inquirer.prompt(preguntaIngresoBanquete))
                         .pipe(
                             map(
-                                (banquete)=>{
-                                    respuesta.banquete=banquete;
+                                (banquete:Banquete) => {
+                                    respuesta.banquete = banquete;
                                     return respuesta;
                                 }
                             )
@@ -222,7 +253,7 @@ function preguntarDatos() {
 
 function ejecutarAccion() {
     return map(
-        (respuesta)=>{
+        (respuesta:RespuestaLeerBDD) => {
             respuesta.bdd.banquetes.push(respuesta.banquete);
             return respuesta;
         }
@@ -231,32 +262,9 @@ function ejecutarAccion() {
 
 function actualizarBDD() {
     return mergeMap(
-        (respuesta)=>{
+        (respuesta) => {
             return rxjs.from(guardarBDD(respuesta.bdd));
         }
     )
-}
-
-function  main() {
-    console.log('Empezo');
-    inicializarBase()
-        .pipe(
-            preguntarOpcioneMenu(),
-            preguntarDatos(),
-            ejecutarAccion(),
-            actualizarBDD()
-        )
-        .subscribe(
-            (respuesta:respuestaLeerBDD)=>{
-                console.log(respuesta)
-            },
-            (error)=>{
-                console.log('Error');
-            },
-            ()=>{
-                console.log('Completado');
-                main();
-            }
-        );
 }
 main();

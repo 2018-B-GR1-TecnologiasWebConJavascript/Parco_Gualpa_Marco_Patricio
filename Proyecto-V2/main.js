@@ -1,3 +1,5 @@
+//declare var require;
+//declare var Promise;
 const inquirer = require('inquirer');
 const fs = require('fs');
 const rxjs = require('rxjs');
@@ -5,7 +7,7 @@ const mergeMap = require('rxjs/operators').mergeMap;
 const map = require('rxjs/operators').map;
 const menuPrincipal = {
     type: 'list',
-    name: 'opcionesMenu',
+    name: 'opcionesdelMenu',
     message: 'Seleciona una opcion',
     choices: [
         'Ver Banquetes',
@@ -34,17 +36,32 @@ const preguntaBuscarBanquete = [
         message: "Cual es el nombre del Banquete que desea buscar?"
     }
 ];
+function main() {
+    console.log('Empezo');
+    inicializarBase()
+        .pipe(preguntarOpcionesMenu(), preguntarDatos(), ejecutarAccion(), actualizarBDD())
+        .subscribe((respuesta) => {
+        console.log(respuesta);
+    }, (error) => {
+        console.log('Error');
+    }, () => {
+        console.log('Completado');
+        //main();
+    });
+}
 function inicializarBase() {
     const bddLeida$ = rxjs.from(leerDBB());
     return bddLeida$
         .pipe(mergeMap(//Respuesta Anterior Observable
     (respuestaBDD) => {
         if (respuestaBDD.bdd) {
-            return rxjs.of(respuestaBDD);
+            return rxjs
+                .of(respuestaBDD);
         }
         else {
             //crear la base
-            return rxjs.from(crearBDD());
+            return rxjs
+                .from(crearBDD());
         }
     }));
 }
@@ -103,14 +120,22 @@ function guardarBDD(bdd) {
         });
     });
 }
-function preguntarOpcioneMenu() {
+function preguntarOpcionesMenu() {
     return mergeMap((respuesta) => {
         return rxjs
             .from(inquirer.prompt(menuPrincipal))
             .pipe(map((opcionMenu) => {
-            respuesta.opcionMenu = opcionMenu;
+            respuesta.opcionesdelMenu = opcionMenu;
             return respuesta;
         }));
+        /*.pipe(
+            mergeMap(
+                (opcionMenu: OpcionesDelMenu) => {
+                    respuesta.opcionesdelMenu = opcionMenu;
+                    return respuesta;
+                }
+            )
+        );*/
     });
 }
 /*
@@ -133,7 +158,7 @@ function preguntarOpcionesMenu() {
 */
 function preguntarDatos() {
     return mergeMap((respuesta) => {
-        switch (respuesta.opcionMenu.opcionMenu) {
+        switch (respuesta.opcionesdelMenu.opcionesdelMenu) {
             case 'Ingresar nuevo Banquete':
                 return rxjs
                     .from(inquirer.prompt(preguntaIngresoBanquete))
@@ -161,19 +186,6 @@ function ejecutarAccion() {
 function actualizarBDD() {
     return mergeMap((respuesta) => {
         return rxjs.from(guardarBDD(respuesta.bdd));
-    });
-}
-function main() {
-    console.log('Empezo');
-    inicializarBase()
-        .pipe(preguntarOpcioneMenu(), preguntarDatos(), ejecutarAccion(), actualizarBDD())
-        .subscribe((respuesta) => {
-        console.log(respuesta);
-    }, (error) => {
-        console.log('Error');
-    }, () => {
-        console.log('Completado');
-        main();
     });
 }
 main();
