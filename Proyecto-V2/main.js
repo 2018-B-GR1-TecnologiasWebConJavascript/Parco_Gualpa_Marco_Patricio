@@ -1,6 +1,8 @@
-//declare var Promise;
 const inquirer = require('inquirer');
 const fs = require('fs');
+const rxjs = require('rxjs');
+const mergeMap = require('rxjs/operators').mergeMap;
+const map = require('rxjs/operators').map;
 const menuPrincipal = {
     type: 'list',
     name: 'opcionesMenu',
@@ -32,3 +34,146 @@ const preguntaBuscarBanquete = [
         message: "Cual es el nombre del Banquete que desea buscar?"
     }
 ];
+function inicializarBase() {
+    const bddLeida$ = rxjs.from(leerDBB());
+    return bddLeida$
+        .pipe(mergeMap(//Respuesta Anterior Observable
+    (respuestaBDD) => {
+        if (respuestaBDD.bdd) {
+            return rxjs.of(respuestaBDD);
+        }
+        else {
+            //crear la base
+            return rxjs.from(crearBDD());
+        }
+    }));
+}
+function leerDBB() {
+    return new Promise((resolve) => {
+        fs.readFile('dbb.json', 'utf-8', (error, contenido) => {
+            if (error) {
+                resolve({
+                    mensaje: 'Error al abrir la base de datos',
+                    bdd: null
+                });
+            }
+            else {
+                resolve({
+                    mensaje: 'Base leida correctamente',
+                    bdd: JSON.parse(contenido)
+                });
+            }
+        });
+    });
+}
+function crearBDD() {
+    const contenido = '{"banquetes":[]}';
+    return new Promise((resolve, reject) => {
+        fs.writeFile('dbb.json', contenido, (error) => {
+            if (error) {
+                reject({
+                    mensaje: 'Error creando la Base de Datos',
+                    error: 500
+                });
+            }
+            else {
+                resolve({
+                    mensaje: 'Base de Datos creada exitosamente',
+                    bdd: JSON.parse(contenido)
+                });
+            }
+        });
+    });
+}
+function guardarBDD(bdd) {
+    return new Promise((resolve, reject) => {
+        fs.writeFile('dbb.json', JSON.stringify(bdd), (error) => {
+            if (error) {
+                reject({
+                    mensaje: 'Error guardando la Base de Datos',
+                    error: 500
+                });
+            }
+            else {
+                resolve({
+                    mensaje: 'Base de Datos guardada exitosamente',
+                    bdd
+                });
+            }
+        });
+    });
+}
+function preguntarOpcioneMenu() {
+    return mergeMap((respuesta) => {
+        return rxjs
+            .from(inquirer.prompt(menuPrincipal))
+            .pipe(map((opcionMenu) => {
+            respuesta.opcionMenu = opcionMenu;
+            return respuesta;
+        }));
+    });
+}
+/*
+function preguntarOpcionesMenu() {
+    return mergeMap(
+        (respuesta: respuestaLeerBDD)=>{
+            return rxjs
+                .from(inquirer.prompt(menuPrincipal))
+                .pipe(
+                    map(
+                        (opcionMenu)=>{
+                            respuesta.opcionMenu=opcionMenu;
+                            return respuesta;
+                        }
+                    )
+                )
+        }
+    )
+}
+*/
+function preguntarDatos() {
+    return mergeMap((respuesta) => {
+        switch (respuesta.opcionMenu.opcionMenu) {
+            case 'Ingresar nuevo Banquete':
+                return rxjs
+                    .from(inquirer.prompt(preguntaIngresoBanquete))
+                    .pipe(map((banquete) => {
+                    respuesta.banquete = banquete;
+                    return respuesta;
+                }));
+            /*case 'Buscar Banquetes':
+                break;
+            case 'Ver Banquetes':
+                break;
+            case 'Actualizar Banquete':
+                break;
+            case 'Eliminar Banquete':
+                    break;*/
+        }
+    });
+}
+function ejecutarAccion() {
+    return map((respuesta) => {
+        respuesta.bdd.banquetes.push(respuesta.banquete);
+        return respuesta;
+    });
+}
+function actualizarBDD() {
+    return mergeMap((respuesta) => {
+        return rxjs.from(guardarBDD(respuesta.bdd));
+    });
+}
+function main() {
+    console.log('Empezo');
+    inicializarBase()
+        .pipe(preguntarOpcioneMenu(), preguntarDatos(), ejecutarAccion(), actualizarBDD())
+        .subscribe((respuesta) => {
+        console.log(respuesta);
+    }, (error) => {
+        console.log('Error');
+    }, () => {
+        console.log('Completado');
+        main();
+    });
+}
+main();
