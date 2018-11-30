@@ -37,6 +37,13 @@ const preguntaBuscarBanquete = [
         message: "Cual es el nombre del Banquete que desea buscar?"
     }
 ];
+const preguntaEliminarBanquete = [
+    {
+        name: 'nombreBanquete',
+        type: 'input',
+        message: "Cual es el nombre del Banquete que desea eliminar?"
+    }
+];
 const preguntaNuevoCostoBanquete = [
     {
         name: 'costoBanquete',
@@ -149,34 +156,17 @@ function preguntarDatos() {
                     return respuesta;
                 }));
             case 'Buscar Banquetes':
-            //return preguntarNombreBanquete(respuesta);
+                return preguntarNombreBanqueteBuscar(respuesta);
             case 'Actualizar Banquete':
                 return preguntarNombreBanquete(respuesta);
             case 'Eliminar Banquete':
+                return eliminarBanquetePorNombre(respuesta);
                 break;
             case 'Ver Banquetes':
-                /*return rxjs.from(leerDBB())
-                    .pipe(
-                        map(
-                            (respuesta: RespuestaLeerBDD) => {
-                                return console.log(respuesta.bdd);
-                            }
-                        )
-                    );*/
                 break;
         }
     });
 }
-/*
-function ejecutarAccion() {
-    return map(
-        (respuesta: RespuestaLeerBDD) => {
-
-            respuesta.bdd.banquetes.push(respuesta.banquete);
-            return respuesta;
-        }
-    )
-}*/
 function ejecutarAccion() {
     return map((respuesta) => {
         const opcion = respuesta.opcionesdelMenu.opcionesdelMenu;
@@ -186,14 +176,17 @@ function ejecutarAccion() {
                 return respuesta;
                 break;
             case 'Buscar Banquetes':
-                //const indice= respuesta.indiceUsuario;
-                break;
+                const indic = respuesta.indiceBanquete;
+                console.log('respuesta.bdd.banquetes[in]', respuesta.bdd.banquetes[indic]);
+                return respuesta;
             case 'Actualizar Banquete':
                 const indice = respuesta.indiceBanquete;
-                respuesta.bdd.banquetes[indice].costo = respuesta.banquete.costo;
+                respuesta.bdd.banquetes[indice].costoBanquete = respuesta.banquete.costoBanquete;
                 return respuesta;
                 break;
             case 'Eliminar Banquete':
+                respuesta.bdd.banquetes.splice(respuesta.indiceBanquete, respuesta.indiceBanquete);
+                return respuesta;
                 break;
             case 'Ver Banquetes':
                 break;
@@ -211,7 +204,7 @@ function preguntarNombreBanquete(respuesta) {
         .pipe(mergeMap((resultado) => {
         const indiceBanquete = respuesta.bdd.banquetes
             .findIndex((banquete) => {
-            return banquete.nombre == resultado.nombreBanquete;
+            return banquete.nombreBanquete === resultado.nombreBanquete;
         });
         console.log(respuesta.bdd.banquetes);
         console.log(indiceBanquete);
@@ -223,13 +216,53 @@ function preguntarNombreBanquete(respuesta) {
             respuesta.indiceBanquete = indiceBanquete;
             return rxjs
                 .from(inquirer.prompt(preguntaNuevoCostoBanquete))
-                .pipe(map((costo) => {
+                .pipe(map((costoBanquete) => {
                 respuesta.banquete = {
-                    nombre: null,
-                    costo: costo.costo
+                    nombreBanquete: null,
+                    costoBanquete: costoBanquete.costoBanquete
                 };
                 return respuesta;
             }));
+        }
+    }));
+}
+function preguntarNombreBanqueteBuscar(respuesta) {
+    return rxjs
+        .from(inquirer.prompt(preguntaBuscarBanquete))
+        .pipe(mergeMap((resultado) => {
+        const indiceBanquete = respuesta.bdd.banquetes
+            .findIndex((banquete) => {
+            return banquete.nombreBanquete === resultado.nombreBanquete;
+        });
+        //console.log(respuesta.bdd.banquetes);
+        console.log(indiceBanquete);
+        if (indiceBanquete === -1) {
+            console.log('Lo sentimos ese Banquete no existe, vuelva intentarlo');
+            //preguntarNombreBanqueteBuscar(respuesta);
+        }
+        else {
+            respuesta.indiceBanquete = indiceBanquete;
+            return rxjs.of(respuesta);
+        }
+    }));
+}
+function eliminarBanquetePorNombre(respuesta) {
+    return rxjs
+        .from(inquirer.prompt(preguntaEliminarBanquete))
+        .pipe(mergeMap((resultado) => {
+        const indiceBanquete = respuesta.bdd.banquetes
+            .findIndex((banquete) => {
+            return banquete.nombreBanquete === resultado.nombreBanquete;
+        });
+        console.log(indiceBanquete);
+        if (indiceBanquete === -1) {
+            console.log('Lo sentimos ese Banquete no existe, vuelva intentarlo');
+            return preguntarNombreBanquete(respuesta);
+        }
+        else {
+            console.log("El banquete: fue eliminado correctamente");
+            respuesta.indiceBanquete = indiceBanquete;
+            return rxjs.of(respuesta);
         }
     }));
 }
