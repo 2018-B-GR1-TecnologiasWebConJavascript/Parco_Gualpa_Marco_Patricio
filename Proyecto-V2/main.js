@@ -5,6 +5,7 @@ const fs = require('fs');
 const rxjs = require('rxjs');
 const mergeMap = require('rxjs/operators').mergeMap;
 const map = require('rxjs/operators').map;
+//const switchMap = require('rxjs/operators').switchMap;
 const menuPrincipal = {
     type: 'list',
     name: 'opcionesdelMenu',
@@ -31,9 +32,16 @@ const preguntaIngresoBanquete = [
 ];
 const preguntaBuscarBanquete = [
     {
-        name: 'nombreRestaurante',
+        name: 'nombreBanquete',
         type: 'input',
         message: "Cual es el nombre del Banquete que desea buscar?"
+    }
+];
+const preguntaNuevoCostoBanquete = [
+    {
+        name: 'costoBanquete',
+        type: 'input',
+        message: "Cual es el nuevo costo del Banquete que desea actualizar?"
     }
 ];
 function main() {
@@ -46,7 +54,7 @@ function main() {
         console.log('Error');
     }, () => {
         console.log('Completado');
-        //main();
+        main();
     });
 }
 function inicializarBase() {
@@ -128,34 +136,8 @@ function preguntarOpcionesMenu() {
             respuesta.opcionesdelMenu = opcionMenu;
             return respuesta;
         }));
-        /*.pipe(
-            mergeMap(
-                (opcionMenu: OpcionesDelMenu) => {
-                    respuesta.opcionesdelMenu = opcionMenu;
-                    return respuesta;
-                }
-            )
-        );*/
     });
 }
-/*
-function preguntarOpcionesMenu() {
-    return mergeMap(
-        (respuesta: respuestaLeerBDD)=>{
-            return rxjs
-                .from(inquirer.prompt(menuPrincipal))
-                .pipe(
-                    map(
-                        (opcionMenu)=>{
-                            respuesta.opcionMenu=opcionMenu;
-                            return respuesta;
-                        }
-                    )
-                )
-        }
-    )
-}
-*/
 function preguntarDatos() {
     return mergeMap((respuesta) => {
         switch (respuesta.opcionesdelMenu.opcionesdelMenu) {
@@ -166,26 +148,89 @@ function preguntarDatos() {
                     respuesta.banquete = banquete;
                     return respuesta;
                 }));
-            /*case 'Buscar Banquetes':
+            case 'Buscar Banquetes':
+            //return preguntarNombreBanquete(respuesta);
+            case 'Actualizar Banquete':
+                return preguntarNombreBanquete(respuesta);
+            case 'Eliminar Banquete':
                 break;
             case 'Ver Banquetes':
+                /*return rxjs.from(leerDBB())
+                    .pipe(
+                        map(
+                            (respuesta: RespuestaLeerBDD) => {
+                                return console.log(respuesta.bdd);
+                            }
+                        )
+                    );*/
                 break;
-            case 'Actualizar Banquete':
-                break;
-            case 'Eliminar Banquete':
-                    break;*/
         }
     });
 }
+/*
+function ejecutarAccion() {
+    return map(
+        (respuesta: RespuestaLeerBDD) => {
+
+            respuesta.bdd.banquetes.push(respuesta.banquete);
+            return respuesta;
+        }
+    )
+}*/
 function ejecutarAccion() {
     return map((respuesta) => {
-        respuesta.bdd.banquetes.push(respuesta.banquete);
-        return respuesta;
+        const opcion = respuesta.opcionesdelMenu.opcionesdelMenu;
+        switch (opcion) {
+            case 'Ingresar nuevo Banquete':
+                respuesta.bdd.banquetes.push(respuesta.banquete);
+                return respuesta;
+                break;
+            case 'Buscar Banquetes':
+                //const indice= respuesta.indiceUsuario;
+                break;
+            case 'Actualizar Banquete':
+                const indice = respuesta.indiceUsuario;
+                respuesta.bdd.banquetes[indice].costo = respuesta.banquete.costo;
+                return respuesta;
+                break;
+            case 'Eliminar Banquete':
+                break;
+            case 'Ver Banquetes':
+                break;
+        }
     });
 }
 function actualizarBDD() {
     return mergeMap((respuesta) => {
         return rxjs.from(guardarBDD(respuesta.bdd));
     });
+}
+function preguntarNombreBanquete(respuesta) {
+    return rxjs
+        .from(inquirer.prompt(preguntaBuscarBanquete))
+        .pipe(mergeMap((resultado) => {
+        const indiceUsuario = respuesta.
+            bdd.
+            banquetes
+            .findIndex((banquete) => {
+            return banquete.nombre === resultado.nombre;
+        });
+        console.log(indiceUsuario);
+        if (indiceUsuario === -1) {
+            console.log('Lo sentimos ese Banquete no existe, vuelva intentarlo');
+            return preguntarNombreBanquete(respuesta);
+        }
+        else {
+            respuesta.indiceUsuario = indiceUsuario;
+            return rxjs.from(inquirer.prompt(preguntaNuevoCostoBanquete))
+                .pipe(map((costo) => {
+                respuesta.banquete = {
+                    nombre: null,
+                    costo: costo.costo
+                };
+                return respuesta;
+            }));
+        }
+    }));
 }
 main();

@@ -1,10 +1,13 @@
 //declare var require;
 //declare var Promise;
+
+
 const inquirer = require('inquirer');
 const fs = require('fs');
 const rxjs = require('rxjs');
 const mergeMap = require('rxjs/operators').mergeMap;
 const map = require('rxjs/operators').map;
+//const switchMap = require('rxjs/operators').switchMap;
 
 const menuPrincipal =
     {
@@ -35,11 +38,20 @@ const preguntaIngresoBanquete = [
 
 const preguntaBuscarBanquete = [
     {
-        name: 'nombreRestaurante',
+        name: 'nombreBanquete',
         type: 'input',
         message: "Cual es el nombre del Banquete que desea buscar?"
     }
 ];
+
+const preguntaNuevoCostoBanquete = [
+    {
+        name: 'costoBanquete',
+        type: 'input',
+        message: "Cual es el nuevo costo del Banquete que desea actualizar?"
+    }
+];
+
 
 function main() {
     console.log('Empezo');
@@ -59,9 +71,9 @@ function main() {
             },
             () => {
                 console.log('Completado');
-                //main();
+                main();
             }
-        );
+        )
 }
 
 
@@ -170,14 +182,6 @@ function preguntarOpcionesMenu() {
                         }
                     )
                 )
-                /*.pipe(
-                    mergeMap(
-                        (opcionMenu: OpcionesDelMenu) => {
-                            respuesta.opcionesdelMenu = opcionMenu;
-                            return respuesta;
-                        }
-                    )
-                );*/
         }
     );
 }
@@ -188,6 +192,7 @@ interface RespuestaLeerBDD {
     bdd?: BaseDeDatos;
     opcionesdelMenu?: OpcionesDelMenu;
     banquete?: Banquete;
+    indiceUsuario?: number;
 }
 
 interface BaseDeDatos {
@@ -199,72 +204,133 @@ interface Banquete {
     costo: number
 }
 
-interface OpcionesDelMenu {
-    opcionesdelMenu: 'Ver Banquetes' | 'Ingresar nuevo Banquete' | 'Buscar Banquetes ' | 'Actualizar Banquete' | 'Eliminar Banquete'
+interface BuscarBanqueteNombre {
+    nombre: string,
 }
 
-/*
-function preguntarOpcionesMenu() {
-    return mergeMap(
-        (respuesta: respuestaLeerBDD)=>{
-            return rxjs
-                .from(inquirer.prompt(menuPrincipal))
-                .pipe(
-                    map(
-                        (opcionMenu)=>{
-                            respuesta.opcionMenu=opcionMenu;
-                            return respuesta;
-                        }
-                    )
-                )
-        }
-    )
+interface OpcionesDelMenu {
+    opcionesdelMenu: 'Ver Banquetes' | 'Ingresar nuevo Banquete' | 'Buscar Banquetes' | 'Actualizar Banquete' | 'Eliminar Banquete'
 }
-*/
+
 
 function preguntarDatos() {
     return mergeMap(
-        (respuesta:RespuestaLeerBDD) => {
+        (respuesta: RespuestaLeerBDD) => {
             switch (respuesta.opcionesdelMenu.opcionesdelMenu) {
                 case 'Ingresar nuevo Banquete':
                     return rxjs
                         .from(inquirer.prompt(preguntaIngresoBanquete))
                         .pipe(
                             map(
-                                (banquete:Banquete) => {
+                                (banquete: Banquete) => {
                                     respuesta.banquete = banquete;
                                     return respuesta;
                                 }
                             )
                         );
-                /*case 'Buscar Banquetes':
+
+                case 'Buscar Banquetes':
+                //return preguntarNombreBanquete(respuesta);
+
+                case 'Actualizar Banquete':
+                    return preguntarNombreBanquete(respuesta);
+                case 'Eliminar Banquete':
                     break;
                 case 'Ver Banquetes':
+                    /*return rxjs.from(leerDBB())
+                        .pipe(
+                            map(
+                                (respuesta: RespuestaLeerBDD) => {
+                                    return console.log(respuesta.bdd);
+                                }
+                            )
+                        );*/
                     break;
-                case 'Actualizar Banquete':
-                    break;
-                case 'Eliminar Banquete':
-                        break;*/
             }
         }
     );
 }
 
-
+/*
 function ejecutarAccion() {
     return map(
-        (respuesta:RespuestaLeerBDD) => {
+        (respuesta: RespuestaLeerBDD) => {
+
             respuesta.bdd.banquetes.push(respuesta.banquete);
             return respuesta;
         }
     )
+}*/
+
+function ejecutarAccion() {
+    return map(
+        (respuesta: RespuestaLeerBDD) => {
+            const opcion = respuesta.opcionesdelMenu.opcionesdelMenu;
+            switch (opcion) {
+                case 'Ingresar nuevo Banquete':
+                    respuesta.bdd.banquetes.push(respuesta.banquete);
+                    return respuesta;
+                    break;
+                case 'Buscar Banquetes':
+                    //const indice= respuesta.indiceUsuario;
+                    break;
+                case 'Actualizar Banquete':
+                    const indice = respuesta.indiceUsuario;
+                    respuesta.bdd.banquetes[indice].costo = respuesta.banquete.costo;
+                    return respuesta;
+                    break;
+                case 'Eliminar Banquete':
+                    break;
+                case 'Ver Banquetes':
+                    break;
+            }
+        }
+    )
 }
+
 
 function actualizarBDD() {
     return mergeMap(
-        (respuesta) => {
+        (respuesta: RespuestaLeerBDD) => {
             return rxjs.from(guardarBDD(respuesta.bdd));
         }
     )
 }
+
+function preguntarNombreBanquete(respuesta: RespuestaLeerBDD) {
+    return rxjs
+        .from(inquirer.prompt(preguntaBuscarBanquete))
+        .pipe(
+            mergeMap(
+                (resultado: BuscarBanqueteNombre) => {
+                    const indiceUsuario = respuesta.bdd.banquetes
+                        .findIndex(
+                            (banquete) => {
+                                return banquete.nombre === resultado.nombre;
+                            });
+                    console.log(indiceUsuario);
+                    if (indiceUsuario === -1) {
+                        console.log('Lo sentimos ese Banquete no existe, vuelva intentarlo');
+                        return preguntarNombreBanquete(respuesta);
+                    } else {
+                        respuesta.indiceUsuario = indiceUsuario;
+                        return rxjs
+                            .from(inquirer.prompt(preguntaNuevoCostoBanquete))
+                            .pipe(
+                                map(
+                                    (costo: { costo: number }) => {
+                                        respuesta.banquete = {
+                                            nombre: null,
+                                            costo: costo.costo
+                                        };
+                                        return respuesta;
+                                    }
+                                )
+                            )
+                    }
+                }
+            )
+        );
+}
+
 main();
