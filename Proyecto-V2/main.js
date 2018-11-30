@@ -189,7 +189,7 @@ function ejecutarAccion() {
                 //const indice= respuesta.indiceUsuario;
                 break;
             case 'Actualizar Banquete':
-                const indice = respuesta.indiceUsuario;
+                const indice = respuesta.indiceBanquete;
                 respuesta.bdd.banquetes[indice].costo = respuesta.banquete.costo;
                 return respuesta;
                 break;
@@ -209,20 +209,20 @@ function preguntarNombreBanquete(respuesta) {
     return rxjs
         .from(inquirer.prompt(preguntaBuscarBanquete))
         .pipe(mergeMap((resultado) => {
-        const indiceUsuario = respuesta.
-            bdd.
-            banquetes
+        const indiceBanquete = respuesta.bdd.banquetes
             .findIndex((banquete) => {
-            return banquete.nombre === resultado.nombre;
+            return banquete.nombre == resultado.nombreBanquete;
         });
-        console.log(indiceUsuario);
-        if (indiceUsuario === -1) {
+        console.log(respuesta.bdd.banquetes);
+        console.log(indiceBanquete);
+        if (indiceBanquete === -1) {
             console.log('Lo sentimos ese Banquete no existe, vuelva intentarlo');
             return preguntarNombreBanquete(respuesta);
         }
         else {
-            respuesta.indiceUsuario = indiceUsuario;
-            return rxjs.from(inquirer.prompt(preguntaNuevoCostoBanquete))
+            respuesta.indiceBanquete = indiceBanquete;
+            return rxjs
+                .from(inquirer.prompt(preguntaNuevoCostoBanquete))
                 .pipe(map((costo) => {
                 respuesta.banquete = {
                     nombre: null,

@@ -192,7 +192,7 @@ interface RespuestaLeerBDD {
     bdd?: BaseDeDatos;
     opcionesdelMenu?: OpcionesDelMenu;
     banquete?: Banquete;
-    indiceUsuario?: number;
+    indiceBanquete?: number;
 }
 
 interface BaseDeDatos {
@@ -205,7 +205,7 @@ interface Banquete {
 }
 
 interface BuscarBanqueteNombre {
-    nombre: string,
+    nombreBanquete: string,
 }
 
 interface OpcionesDelMenu {
@@ -275,7 +275,7 @@ function ejecutarAccion() {
                     //const indice= respuesta.indiceUsuario;
                     break;
                 case 'Actualizar Banquete':
-                    const indice = respuesta.indiceUsuario;
+                    const indice = respuesta.indiceBanquete;
                     respuesta.bdd.banquetes[indice].costo = respuesta.banquete.costo;
                     return respuesta;
                     break;
@@ -303,17 +303,18 @@ function preguntarNombreBanquete(respuesta: RespuestaLeerBDD) {
         .pipe(
             mergeMap(
                 (resultado: BuscarBanqueteNombre) => {
-                    const indiceUsuario = respuesta.bdd.banquetes
+                    const indiceBanquete = respuesta.bdd.banquetes
                         .findIndex(
-                            (banquete) => {
-                                return banquete.nombre === resultado.nombre;
+                            (banquete:any) => {
+                                return banquete.nombre == resultado.nombreBanquete;
                             });
-                    console.log(indiceUsuario);
-                    if (indiceUsuario === -1) {
+                    console.log(respuesta.bdd.banquetes);
+                    console.log(indiceBanquete);
+                    if (indiceBanquete === -1) {
                         console.log('Lo sentimos ese Banquete no existe, vuelva intentarlo');
                         return preguntarNombreBanquete(respuesta);
                     } else {
-                        respuesta.indiceUsuario = indiceUsuario;
+                        respuesta.indiceBanquete = indiceBanquete;
                         return rxjs
                             .from(inquirer.prompt(preguntaNuevoCostoBanquete))
                             .pipe(
