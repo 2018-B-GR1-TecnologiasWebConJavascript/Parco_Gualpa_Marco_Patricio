@@ -276,10 +276,6 @@ function ejecutarAccion() {
                     return respuesta;
                     break;
                 case 'Ver Banquetes':
-                    return
-                    map(
-                        .
-                    )
                     break;
             }
         }
