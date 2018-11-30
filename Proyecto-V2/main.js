@@ -82,7 +82,7 @@ function inicializarBase() {
 }
 function leerDBB() {
     return new Promise((resolve) => {
-        fs.readFile('dbb.json', 'utf-8', (error, contenido) => {
+        fs.readFile('data.json', 'utf-8', (error, contenido) => {
             if (error) {
                 resolve({
                     mensaje: 'Error al abrir la base de datos',
@@ -260,7 +260,7 @@ function eliminarBanquetePorNombre(respuesta) {
             return preguntarNombreBanquete(respuesta);
         }
         else {
-            console.log("El banquete: fue eliminado correctamente");
+            console.log("El banquete fue eliminado correctamente");
             respuesta.indiceBanquete = indiceBanquete;
             return rxjs.of(respuesta);
         }
