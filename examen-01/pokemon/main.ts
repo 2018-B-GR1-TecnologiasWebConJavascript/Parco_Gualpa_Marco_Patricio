@@ -1,7 +1,6 @@
 //declare var require;
 //declare var Promise;
-
-import {pipe} from "rxjs";
+//import {pipe} from "rxjs";
 
 const inquirer = require('inquirer');
 const fs = require('fs');
