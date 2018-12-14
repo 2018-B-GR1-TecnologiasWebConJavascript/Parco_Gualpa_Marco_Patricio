@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Usuario} from "../../Servicios/usuario-service.service.spec";
+import {UsuarioServiceService} from "../../Servicios/usuario-service.service";
 
 @Component({
   selector: 'app-ruta-gestion-usuarios',
@@ -7,35 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RutaGestionUsuariosComponent implements OnInit {
 
-  usuarios:Usuario[]=[
-    {
-      id:1,
-    nombre:'Marco'
-    },
-    {
-      id:2,
-      nombre:'Patricio'
-    }
-  ];
-  constructor() { }
+  usuarios =[];
+  constructor(private readonly _usuarioService: UsuarioServiceService) { // sirve pra inyeccion de dependencias
+
+  }
+
 
   ngOnInit() {
+    this.usuarios = this._usuarioService.usuarios;
   }
 
-  hola(){
-    return 'hola';
+
+  eliminar(usuario) {
+
+    this._usuarioService.eliminar(usuario.id);
+
   }
-  imprimir(usuario:Usuario){
-    console.log("Imprimir",usuario)
-    const indiceUsuarioAEliminar=this.usuarios
-      .findIndex(
-        (usuarioABuscar)=>{
-        return usuarioABuscar.id === usuario.id;
-      });
-    this.usuarios.splice(indiceUsuarioAEliminar,1)
-  }
+
 }
- interface Usuario {
-   nombre?:string;
-   id?:number;
- }
+
