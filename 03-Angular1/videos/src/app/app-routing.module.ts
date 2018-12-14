@@ -11,6 +11,7 @@ import {RutaCrearUsuariosComponent} from "./rutas/ruta-crear-usuarios/ruta-crear
 import {RutaActualizarUsuariosComponent} from "./rutas/ruta-actualizar-usuarios/ruta-actualizar-usuarios.component";
 import {RutaCrearProductosComponent} from "./rutas/ruta-crear-productos/ruta-crear-productos.component";
 import {RutaActualizarProductosComponent} from "./rutas/ruta-actualizar-productos/ruta-actualizar-productos.component";
+import {RutaVerDetalleUsuarioComponent} from "./rutas/ruta-ver-detalle-usuario/ruta-ver-detalle-usuario.component";
 
 
 const routes: Routes = [
@@ -78,6 +79,10 @@ const routes: Routes = [
           }
         ]
 
+      },
+      {
+        path: 'ver-usuario',
+        component: RutaVerDetalleUsuarioComponent
       }
     ]
     //componente
