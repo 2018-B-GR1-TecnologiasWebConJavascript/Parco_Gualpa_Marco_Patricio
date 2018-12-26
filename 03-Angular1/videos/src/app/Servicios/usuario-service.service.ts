@@ -5,14 +5,14 @@ import { Injectable } from '@angular/core';
 })
 export class UsuarioServiceService {
 
-  usuarios: Usuario[] = [
+  usuarios: UsuarioInterface[] = [
     {
       id: 1,
-      nombre: 'Adrian'
+      nombre: 'Marco'
     },
     {
       id: 2,
-      nombre: 'Vicente'
+      nombre: 'Patricio'
     }
   ];
 
@@ -20,7 +20,6 @@ export class UsuarioServiceService {
 
   constructor() {
   }
-
   crear(nuevoUsuario: UsuarioInterface): UsuarioInterace {
 
     nuevoUsuario.id = this.registroActual;
@@ -48,7 +47,6 @@ export class UsuarioServiceService {
   }
 
   actualizar(id: number, usuarioActualizado: UsuarioInterace) {
-
     const indiceUsuario = this.usuarios
       .findIndex(
         (usuario) => {
