@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Usuario} from "../../Servicios/usuario-service.service.spec";
-import {UsuarioServiceService} from "../../Servicios/usuario-service.service";
+import {UsuarioInterace, UsuarioServiceService} from "../../Servicios/usuario-service.service";
 
 @Component({
   selector: 'app-ruta-gestion-usuarios',
@@ -9,8 +9,12 @@ import {UsuarioServiceService} from "../../Servicios/usuario-service.service";
 })
 export class RutaGestionUsuariosComponent implements OnInit {
 
-  usuarios =[];
-  constructor(private readonly _usuarioService: UsuarioServiceService) { // sirve pra inyeccion de dependencias
+  usuarios = [];
+
+  //Inyeccion de Dependencias
+  constructor(
+    private readonly _usuarioService: UsuarioServiceService
+  ) { // sirve para la inyeccion de dependencias
 
   }
 
@@ -20,8 +24,7 @@ export class RutaGestionUsuariosComponent implements OnInit {
   }
 
 
-  eliminar(usuario) {
-
+  eliminar(usuario: UsuarioInterace) {
     this._usuarioService.eliminar(usuario.id);
 
   }
