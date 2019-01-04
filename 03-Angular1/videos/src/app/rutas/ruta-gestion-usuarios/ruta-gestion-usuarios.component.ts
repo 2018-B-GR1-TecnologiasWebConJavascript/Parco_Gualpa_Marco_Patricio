@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Usuario} from "../../Servicios/usuario-service.service.spec";
-import {UsuarioInterace, UsuarioServiceService} from "../../Servicios/usuario-service.service";
+import {UsuarioInterface, UsuarioServiceService} from "../../Servicios/usuario-service.service";
 
 @Component({
   selector: 'app-ruta-gestion-usuarios',
@@ -18,13 +17,12 @@ export class RutaGestionUsuariosComponent implements OnInit {
 
   }
 
-
-  ngOnInit() {
+  ngOnInit() { // Cuando esta listo el Web Component para Mostrarse
     this.usuarios = this._usuarioService.usuarios;
   }
 
 
-  eliminar(usuario: UsuarioInterace) {
+  eliminar(usuario: UsuarioInterface) {
     this._usuarioService.eliminar(usuario.id);
 
   }

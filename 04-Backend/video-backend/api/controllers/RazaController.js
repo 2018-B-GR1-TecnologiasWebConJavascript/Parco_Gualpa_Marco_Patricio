@@ -4,44 +4,47 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
-//http://localhost1337/Uusario/registrar
+
+
+  //http://localhost1337/Raza/holaMundo
 //http://localhost1337/Uusario/registrar
 
-module.exports = {
+  module.exports = {
   holaMundo:(peticion,respuestar)=>{
     return respuesta.send('ok')
   }
+};
 
-  //Esatanda RESTFULL
+//ESTANDAR RESTFULL
 
-  //MODELO:Raza
+//MODELO:Raza
 
-  //Find Many Encontrar
-  //http://localhost:1337/Raza
-  //METODO HTTP:GET
-
-
-  //Create
-  //http://localhost:1337/Raza
-  //METODO HTTP:POST
-  //Parametros
+//Find -> Many Encontrar
+//http://localhost:1337/Raza
+//METODO HTTP:GET
 
 
-  //UpdateEncontrar
-  //http://localhost:1337/Raza/id
-  //http://localhost:1337/Raza/10
-  //METODO HTTP:PUT
-  //parametros
+//Create ->
+//http://localhost:1337/Raza
+//METODO HTTP:POST
+//Parametros
 
-  //Delete
-  //http://localhost:1337/Raza/id
-  //http://localhost:1337/Raza/10
-  //METODO HTTP:DELETE
 
-  //Find One
-  //http://localhost:1337/Raza?nombre=carlos
-  //http://localhost:1337/Raza/10
-  //METODO HTTP:GET
+//Update ->Encontrar
+//http://localhost:1337/Raza/id
+//http://localhost:1337/Raza/10
+//METODO HTTP:PUT
+//parametros
+
+//Delete
+//http://localhost:1337/Raza/id
+//http://localhost:1337/Raza/10
+//METODO HTTP:DELETE
+
+//Find One by ID
+//http://localhost:1337/Raza?nombre=carlos
+//http://localhost:1337/Raza/10
+//METODO HTTP:GET
 };
 
 
@@ -62,6 +65,7 @@ module.exports = {
 //No sirve en el metodo get
 //JS
 //o formulario HTML
+
 //<form>
 //<input type="text" name="nombre"  value ="marco">
 //<input type="text" name="apellido"  value ="parco">

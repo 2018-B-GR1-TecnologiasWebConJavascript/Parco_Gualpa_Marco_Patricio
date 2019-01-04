@@ -20,7 +20,7 @@ export class UsuarioServiceService {
 
   constructor() {
   }
-  crear(nuevoUsuario: UsuarioInterface): UsuarioInterace {
+  crear(nuevoUsuario: UsuarioInterface): UsuarioInterface {
 
     nuevoUsuario.id = this.registroActual;
     this.usuarios.push(nuevoUsuario);
@@ -29,7 +29,7 @@ export class UsuarioServiceService {
     return nuevoUsuario;
   }
 
-  eliminar(id: number) {
+  eliminar(id: number) : UsuarioInterface{
     const indiceUsuario = this.usuarios
       .findIndex(
         (usuario) => {
@@ -46,7 +46,7 @@ export class UsuarioServiceService {
     return usuarioBorrado;
   }
 
-  actualizar(id: number, usuarioActualizado: UsuarioInterace) {
+  actualizar(id: number, usuarioActualizado: UsuarioInterface) {
     const indiceUsuario = this.usuarios
       .findIndex(
         (usuario) => {
@@ -65,7 +65,7 @@ export class UsuarioServiceService {
   }
 }
 
-export interface UsuarioInterace {
+export interface UsuarioInterface {
   nombre?: string;
   id?: number;
 }

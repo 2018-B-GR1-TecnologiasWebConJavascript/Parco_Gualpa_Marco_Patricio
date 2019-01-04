@@ -20,8 +20,9 @@
     <td>{{usuario.nombre}}</td>
     <td>
       <!--Envent Binding (nombre Evento)="funcionEnLaClase()"-->
-      <button (click)="eliminar(usuario)"> Eliminar </button>
-      <a routerLink="/menu/ver-usuario">
+      <button (click)="eliminar(usuario)"> Eliminar</button>
+      <!-- Property Binding [Propiedad] Solo codigo JS-->
+      <a [routerLink]="['/menu','ver-usuario',usuario.id]">
         <button>
           Ver
         </button>
@@ -29,7 +30,7 @@
     </td>
   </tr>
 </table>
-<router-outlet> </router-outlet>
+<router-outlet></router-outlet>
 
 <!--Directivas-->
 <!--*ngFor -> iterar el arreglo-->

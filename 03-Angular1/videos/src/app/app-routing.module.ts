@@ -60,6 +60,10 @@ const routes: Routes = [
         ]
       },
       {
+        path:'ver-usuario/:idUsuario',
+        component:RutaVerDetalleUsuarioComponent,
+      },
+      {
         path:'gestion-productos',
         component:RutaGestionProductosComponent,
         children:[
