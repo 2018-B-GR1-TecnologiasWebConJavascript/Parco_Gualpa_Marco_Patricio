@@ -10,7 +10,9 @@
 module.exports = {
   holaMundo:(peticion,respuestar)=>{
     return respuesta.send('ok')
-  }
+  },
+  buscarPorNombre
+
 
   //Esatanda RESTFULL
 
