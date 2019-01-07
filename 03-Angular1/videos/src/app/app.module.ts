@@ -18,6 +18,7 @@ import {UsuarioServiceService} from "./Servicios/usuario-service.service";
 import {RutaVerDetalleUsuarioComponent} from './rutas/ruta-ver-detalle-usuario/ruta-ver-detalle-usuario.component';
 import {HttpClientModule} from "@angular/common/http";
 import {RazaRestService} from "./Servicios/rest/raza-rest.service";
+import { RutaCrearRazaComponent } from './rutas/ruta-crear-raza/ruta-crear-raza.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {RazaRestService} from "./Servicios/rest/raza-rest.service";
     RutaCrearProductosComponent,
     RutaActualizarProductosComponent,
     RutaVerDetalleUsuarioComponent,
+    RutaCrearRazaComponent,
   ], //components
   imports: [
     BrowserModule,
