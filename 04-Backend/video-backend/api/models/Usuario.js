@@ -6,61 +6,55 @@
  */
 
 module.exports = {
+  //Nombre de la tabla
+  tableName: 'db_usuario',
 
-  attributes: {
-
-      //Nombre de la tabla
-      tableName:'db_usuario',
-
-    atributes:{
-        nombre:{
-          type:'string',
-          required:true
-        },
-      apellido:{
-        type:'string',
-        required:true
+    atributes: {
+      nombre: {
+        type: 'string',
+        required: true
       },
-      direccionCasa:{
-        type:'string',
-        columnName:'direccion_casa',
-        required:true
+      apellido: {
+        type: 'string',
+        required: true
       },
-      cedula:{
-        type:'string',
-        required:true,
-        unique:true
+      direccionCasa: {
+        type: 'string',
+        columnName: 'direccion_casa',
       },
-      sueldo:{
-        type:'number',
-        defaultsTo:394.00
+      cedula: {
+        type: 'string',
+        required: true,
+        unique: true
       },
-      correoElectronico:{
-          type:'string',
-        columnName:'correo_electronico',
-        isEmail:true
+      sueldo: {
+        type: 'number',
+        defaultsTo: 394.00
       },
-      numeroPropiedades:{
-        type:'number',
-        columnName:'numero_propiedades',
-        max:5,
-        min:0,
-        defaultsTo:0
+      correoElectronico: {
+        type: 'string',
+        columnName: 'correo_electronico',
+        isEmail: true
       },
-      estado:{
-          type:'boolean',
+      numeroPropiedades: {
+        type: 'number',
+        columnName: 'numero_propiedades',
+        max: 5,
+        min: 0,
+        defaultsTo: 0
+      },
+      estado: {
+        type: 'boolean',
         defaultsTo: true
       },
-      rol:{
-        type:'string',
-        isIn:['Administrador',
-        'Usuario',
-        'Reporte'],
-        defaultsTo:'Usuario'
+      rol: {
+        type: 'string',
+        isIn: ['Administrador',
+          'Usuario',
+          'Reporte'],
+        defaultsTo: 'Usuario'
       }
-    }
+    },
 
-  },
-
-};
+  };
 

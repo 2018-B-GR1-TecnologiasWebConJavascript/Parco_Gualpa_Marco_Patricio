@@ -12,7 +12,7 @@ module.exports = {
       type: 'string',
       required: true
     },
-    mascotas: {
+    idRaza: {
       model:'Raza' // Modelo Papa
     }
   },

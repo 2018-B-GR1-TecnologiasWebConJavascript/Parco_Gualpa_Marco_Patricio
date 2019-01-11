@@ -44,6 +44,7 @@ import { RutaCrearRazaComponent } from './rutas/ruta-crear-raza/ruta-crear-raza.
   ], //modulos
   providers: [UsuarioServiceService,
     RazaRestService],// servicios
+  
   bootstrap: [AppComponent] //componente principal
 
 })
