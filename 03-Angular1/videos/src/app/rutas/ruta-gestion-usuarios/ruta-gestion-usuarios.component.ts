@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Usuario} from "../../Servicios/usuario-service.service.spec";
-import {UsuarioInterace, UsuarioServiceService} from "../../Servicios/usuario-service.service";
+import {UsuarioInterface, UsuarioServiceService} from "../../Servicios/usuario-service.service";
+import {RazaRestService} from "../../Servicios/rest/raza-rest.service";
+import {Raza} from "../../interfaces/raza";
+import {subscribeTo} from "rxjs/internal-compatibility";
 
 @Component({
   selector: 'app-ruta-gestion-usuarios',
@@ -13,19 +15,38 @@ export class RutaGestionUsuariosComponent implements OnInit {
 
   //Inyeccion de Dependencias
   constructor(
-    private readonly _usuarioService: UsuarioServiceService
+    private readonly _razaRestService: RazaRestService
   ) { // sirve para la inyeccion de dependencias
 
   }
 
-
-  ngOnInit() {
-    this.usuarios = this._usuarioService.usuarios;
+  ngOnInit() { // Cuando esta listo el Web Component para Mostrarse
+    const razas$ = this._razaRestService.fincAll();
+    razas$
+      .subscribe(
+        (razas: Raza[])=>{
+          console.log(razas);
+          this.usuarios=razas;
+        },
+        (error)=>{
+          console.log('Error',error);
+        }
+      )
   }
 
 
-  eliminar(usuario: UsuarioInterace) {
-    this._usuarioService.eliminar(usuario.id);
+  eliminar(usuario: UsuarioInterface) {
+   razaEliminada$
+    .subscribe(
+      (razaEliminada: Raza)=>{
+        console.log('Se Elimino',razaEliminada);
+        const indice = this.usuarios
+          .findIndex((r)=>r.id===raza.id);
+      },
+      (error)=>{
+        console.error('Error',error);
+      }
+    )
 
   }
 

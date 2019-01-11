@@ -1,0 +1,64 @@
+<form >
+  <div>
+    {{nombre}}
+    <label for="nombre">Nombre</label>
+    <!-- Banana Box Model-->
+    <!-- Two way data bindig-->
+    <!-- Componente -> HTML-->
+    <!-- HTML-> Componente -->
+
+    <input id="nombre"
+           type="nombre"
+           required
+           placeholder="Escribe el nombre de una Raza"
+           [(ngModel)]="raza.nombre"
+
+    >
+  </div>
+  <div>
+    {{apellido}}
+    <label for="nombre">Nombre</label>
+    <!-- Banana Box Model-->
+    <!-- Two way data bindig-->
+    <!-- Componente -> HTML-->
+    <!-- HTML-> Componente -->
+
+    <input id="apellido"
+           type="apellido"
+           placeholder="Escribe el nombre de una Raza"
+           [(ngModel)]="raza.apellido"
+
+    >
+  </div>
+    <button>Crear Raza</button>
+
+  <form #razaFormulario="ngForm"
+        novalidate
+        (submit)="crearRaza(razaFormulario)"
+  >
+    <pre>
+      formulario valido:{{razaFormulario.valid}}
+      formulario invalido:{{razaFormulario.invalid}}
+
+      formulario errores:{{razaFormulario.errors}}
+
+      formulario touched:{{razaFormulario.touched}}
+      formulario untouched:{{razaFormulario.untouched}}
+
+      formulario dirty:{{razaFormulario.dirty}}
+      formulario pristine:{{razaFormulario.pristine}}
+    </pre>
+    <div></div>
+    <div></div>
+
+    <button type="button">Button</buttontyo>
+    <button type="reset">Reset</button>
+    <button type="submit">Submit
+    </button>
+
+
+
+
+
+  </form>
+</form>
