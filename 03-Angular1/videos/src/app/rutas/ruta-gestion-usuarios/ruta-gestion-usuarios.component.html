@@ -5,7 +5,7 @@
 <h3>Gestion de Usuarios</h3>
 <p>Gestione sus usuarios.</p>
 <a routerLink="/menu/crear-raza">
-  <button> Crear Raza </button>
+  <button> Crear Raza</button>
 </a> >
 
 <table>
@@ -30,6 +30,12 @@
         <button>
           Ver
         </button>
+      </a>
+      <a [routerLink]="
+      ['/menu','actualizar-raza',usuario.id] ">
+        <botón>
+          Actualizar
+        </botón>
       </a>
     </td>
   </tr>

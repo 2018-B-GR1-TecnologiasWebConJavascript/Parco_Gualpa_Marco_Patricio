@@ -19,6 +19,8 @@ import {RutaVerDetalleUsuarioComponent} from './rutas/ruta-ver-detalle-usuario/r
 import {HttpClientModule} from "@angular/common/http";
 import {RazaRestService} from "./Servicios/rest/raza-rest.service";
 import { RutaCrearRazaComponent } from './rutas/ruta-crear-raza/ruta-crear-raza.component';
+import { RutaActualizarRazaComponent } from './rutas/ruta-actualizar-raza/ruta-actualizar-raza.component';
+import { ImagenPeliculaComponent } from './componentes/imagen-pelicula/imagen-pelicula.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { RutaCrearRazaComponent } from './rutas/ruta-crear-raza/ruta-crear-raza.
     RutaActualizarProductosComponent,
     RutaVerDetalleUsuarioComponent,
     RutaCrearRazaComponent,
+    RutaActualizarRazaComponent,
+    ImagenPeliculaComponent,
   ], //components
   imports: [
     BrowserModule,

@@ -29,7 +29,9 @@ export class RutaCrearRazaComponent implements OnInit {
             console.error('Error: 'error);
           }
         }
-      )
+
+        nombreContieneA(nombre:string):boolean{
+    return nombre.includes('a')
   }
 
 
