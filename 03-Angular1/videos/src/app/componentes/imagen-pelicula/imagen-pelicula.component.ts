@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter,Input,Output ,OnInit} from '@angular/core';
 import {InputMetadataWalker} from "codelyzer/noInputRenameRule";
 
 @Component({
@@ -11,11 +11,25 @@ export class ImagenPeliculaComponent implements OnInit {
   nombre:string,
   @Input()
   titulo:string;
-  @Input()
+  @Input() // Propiedades
   anio:string;
+  @Output() //Eventos que le damos a la etiqueta
+  dioClick = new EventEmitter();
+
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+
+  lanzarEventoDioClick(){
+    const objetoPelicula={
+      titulo:this.titulo,
+      anio:this.anio,
+      nombre:this.nombre
+    };
+    this.dioClick.emit(objetoPelicula)
   }
 
 }

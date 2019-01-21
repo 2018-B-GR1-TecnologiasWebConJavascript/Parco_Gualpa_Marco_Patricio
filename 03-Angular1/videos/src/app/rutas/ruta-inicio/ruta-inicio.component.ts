@@ -25,6 +25,9 @@ imagenes:Imagenes[]=[
 ];
   ngOnInit() {
   }
+  agregarCarrito(pelicula){
+    console.log("Agregar al Carrito",pelicula);
+  }
 }
 export interface Imagenes {
   nombreImagen:string,

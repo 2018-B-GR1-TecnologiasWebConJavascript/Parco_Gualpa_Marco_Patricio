@@ -2,5 +2,7 @@
 <div *ngFor="let imagen of imagenes"></div>
 <app-imagen-pelicula
   [nombre]="imagen.nombreImagen"
-  [titulo]=""
+  [titulo]="imagen.nombrePelicula"
+  [anio]="imagen.anio"
+  (dioClick)="agregarCarrito($event)"
 ></app-imagen-pelicula>
