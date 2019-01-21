@@ -22,6 +22,7 @@ import { RutaCrearRazaComponent } from './rutas/ruta-crear-raza/ruta-crear-raza.
 import { RutaActualizarRazaComponent } from './rutas/ruta-actualizar-raza/ruta-actualizar-raza.component';
 import { ImagenPeliculaComponent } from './componentes/imagen-pelicula/imagen-pelicula.component';
 import { FormularioRazaComponent } from './componentes/formulario-raza/formulario-raza.component';
+import { LoginComponent } from './componentes/login/login.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { FormularioRazaComponent } from './componentes/formulario-raza/formulari
     RutaActualizarRazaComponent,
     ImagenPeliculaComponent,
     FormularioRazaComponent,
+    LoginComponent,
   ], //components
   imports: [
     BrowserModule,

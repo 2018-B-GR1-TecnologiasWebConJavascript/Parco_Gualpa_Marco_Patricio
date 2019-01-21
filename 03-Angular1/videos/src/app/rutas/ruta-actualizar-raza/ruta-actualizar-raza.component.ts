@@ -9,13 +9,17 @@ import {RazaRestService} from "../../Servicios/rest/raza-rest.service";
 })
 export class RutaActualizarRazaComponent implements OnInit {
 
+  razaAActualizar: Raza; //undefined
+
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
-  private readonly _razaRestService:RazaRestService,
-  ) { }
+    private readonly _razaRestService: RazaRestService,
+    private readonly _router: Router
+  ) {
+  }
 
+  // Cuando empieza el componente
   ngOnInit() {
-
     const rutaActiva$ = this._activatedRoute.params;
 
     rutaActiva$
@@ -38,45 +42,53 @@ export class RutaActualizarRazaComponent implements OnInit {
       );
 
   }
-    buscarRaza(idRaza) {
-      const raza$ = this._razaRestService
-        .findOneById(idRaza);
 
-      raza$
-        .subscribe(
-          (raza: Raza) => {
-            console.log(raza);
-          },
-          (error) => {
-            console.error('Error: ', error);
-          }
-        );
-    }
+  buscarRaza(idRaza) {
+    const raza$ = this._razaRestService
+      .findOneById(idRaza);
 
-    actualizarRaza(formulario: NgForm) {
+    raza$
+      .subscribe(
+        (raza: Raza) => {
+          console.log(raza);
+        },
+        (error) => {
+          console.error('Error: ', error);
+        }
+      );
+  }
 
-      const razaActualizada$ = this._razaRestService
-        .updateOneById(this.razaAActualizar);
+  actualizarRaza(razaActualizada) {
 
-      razaActualizada$
-        .subscribe(
-          (razaActualizada: Raza) => {
+    razaActualizada.id = this.razaAActualizar.id;
 
-            const url = [
-              '/menu',
-              'gestion-usuarios'
-            ];
+    const razaActualizada$ = this._razaRestService
+      .updateOneById(razaActualizada);
 
-            alert('Raza actualizada ' + razaActualizada.nombre);
+    razaActualizada$
+      .subscribe(
+        (razaActualizada: Raza) => {
 
-            this._router.navigate(url);
-          },
-          (error) => {
-            console.error('Error', error);
-          }
-        );
+          const url = [
+            '/menu',
+            'gestion-usuarios'
+          ];
 
-    }
+          alert('Raza actualizada ' + razaActualizada.nombre);
+
+          this._router.navigate(url);
+        },
+        (error) => {
+          console.error('Error', error);
+        }
+      );
 
   }
+
+
+}
+
+interface ParametrosRutaActualizarRaza {
+  idRaza: string;
+}
 
