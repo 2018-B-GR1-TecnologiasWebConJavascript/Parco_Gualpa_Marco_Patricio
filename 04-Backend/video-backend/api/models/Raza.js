@@ -13,6 +13,14 @@ module.exports = {
       type:'string',
       required:true
     },
+    username:{
+      type:'string',
+      required: true
+    },
+    password:{
+      type:'string',
+      required: true
+    },
     mascotas:{
       collection:'Mascota',   //Modelo hijo
       via:'idRaza'            // Nombre del campo

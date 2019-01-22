@@ -12,8 +12,32 @@
   module.exports = {
   holaMundo:(peticion,respuestar)=>{
     return respuesta.send('ok')
+  },
+  login:async (req,res)=> {
+  const parametros = req.allParams();
+
+  var usuarioLogueado=await Raza.find({
+    username:parametros.username,
+    password:parametros.password,
+  });
+  console.log(usuarioLogueado);
+  if(usuarioLogueado) {
+    return res.ok(usuarioLogueado);
+  }else {
+  return res.badRequest({mensaje:'Usuario Invalido'})
+  }
   }
 };
+
+  
+
+
+
+
+
+
+
+
 
 //ESTANDAR RESTFULL
 
@@ -80,3 +104,4 @@
 //4XX -> Error del cliente
 //5XX -> Error del servidor
 //
+
