@@ -6,37 +6,46 @@
  */
 
 
-  //http://localhost1337/Raza/holaMundo
+//http://localhost1337/Raza/holaMundo
 //http://localhost1337/Uusario/registrar
 
-  module.exports = {
-  holaMundo:(peticion,respuestar)=>{
+module.exports = {
+  holaMundo: (peticion, respuestar) => {
     return respuesta.send('ok')
   },
-  login:async (req,res)=> {
-  const parametros = req.allParams();
+  buscarPorNombre: async function (req, res) {
+    // TENER ACCESO A TODOS LOS MODELOS
+    // Body Query
+    const parametros = req.allParams();
 
-  var usuarioLogueado=await Raza.find({
-    username:parametros.username,
-    password:parametros.password,
-  });
-  console.log(usuarioLogueado);
-  if(usuarioLogueado) {
-    return res.ok(usuarioLogueado);
-  }else {
-  return res.badRequest({mensaje:'Usuario Invalido'})
+
+    // Buscar el usuario con username y password
+    // como el que te mando
+    var nombreCac = await Raza.find({
+      nombre: {'startsWith': parametros.nombre}
+    });
+
+    return res.ok(nombreCac);
+
+  },
+
+
+
+  login: async (req, res) => {
+    const parametros = req.allParams();
+
+    var usuarioLogueado = await Raza.find({
+      username: parametros.username,
+      password: parametros.password,
+    });
+
+    const error = usuarioLogueado.length === 0;
+    if (!error) {
+      return res.ok(usuarioLogueado[0]);
+    } else {
+      return res.badRequest({mensaje: 'Usuario Invalido'})
+    }
   }
-  }
-};
-
-  
-
-
-
-
-
-
-
 
 
 //ESTANDAR RESTFULL
@@ -69,7 +78,8 @@
 //http://localhost:1337/Raza?nombre=carlos
 //http://localhost:1337/Raza/10
 //METODO HTTP:GET
-};
+}
+;
 
 
 //Query Params parametros de consulta al final del url
@@ -94,7 +104,6 @@
 //<input type="text" name="nombre"  value ="marco">
 //<input type="text" name="apellido"  value ="parco">
 //</form>
-
 
 
 // Codigo de estado ->status code

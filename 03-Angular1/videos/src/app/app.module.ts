@@ -18,11 +18,14 @@ import {UsuarioServiceService} from "./Servicios/usuario-service.service";
 import {RutaVerDetalleUsuarioComponent} from './rutas/ruta-ver-detalle-usuario/ruta-ver-detalle-usuario.component';
 import {HttpClientModule} from "@angular/common/http";
 import {RazaRestService} from "./Servicios/rest/raza-rest.service";
-import { RutaCrearRazaComponent } from './rutas/ruta-crear-raza/ruta-crear-raza.component';
-import { RutaActualizarRazaComponent } from './rutas/ruta-actualizar-raza/ruta-actualizar-raza.component';
-import { ImagenPeliculaComponent } from './componentes/imagen-pelicula/imagen-pelicula.component';
-import { FormularioRazaComponent } from './componentes/formulario-raza/formulario-raza.component';
-import { LoginComponent } from './componentes/login/login.component';
+import {RutaCrearRazaComponent} from './rutas/ruta-crear-raza/ruta-crear-raza.component';
+import {RutaActualizarRazaComponent} from './rutas/ruta-actualizar-raza/ruta-actualizar-raza.component';
+import {ImagenPeliculaComponent} from './componentes/imagen-pelicula/imagen-pelicula.component';
+import {FormularioRazaComponent} from './componentes/formulario-raza/formulario-raza.component';
+import {LoginComponent} from './componentes/login/login.component';
+import {TableModule} from "primeng/table";
+import {ButtonModule} from "primeng/button";
+import {InputTextModule} from "primeng/primeng";
 
 @NgModule({
   declarations: [
@@ -48,11 +51,17 @@ import { LoginComponent } from './componentes/login/login.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule, //Acceso a un servicio http client
+    HttpClientModule,
+    TableModule,
+    ButtonModule,
+    InputTextModule//Acceso a un servicio http client
   ], //modulos
-  providers: [UsuarioServiceService,
-    RazaRestService],// servicios
-  
+  providers: [
+    UsuarioServiceService,
+    RazaRestService],
+    AuthService,
+    // servicios
+
   bootstrap: [AppComponent] //componente principal
 
 })

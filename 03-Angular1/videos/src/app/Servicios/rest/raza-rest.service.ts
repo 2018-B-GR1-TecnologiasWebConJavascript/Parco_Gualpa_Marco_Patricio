@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Observable, pipe} from "rxjs";
 import {Raza} from "../../interfaces/raza";
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class RazaRestService {
@@ -22,19 +23,19 @@ export class RazaRestService {
   }
 
   delete(id: number): Observable<Raza[]> {
-    this._httpClient
+    return this._httpClient
       .get(environment.url + this.nombreModelo + `/${id}`)
       .pipe(map(r => <Raza[]> r));  //Castear
   }
 
-  create(nombre:string):Observable<Raza>{
-    const objetoAGuardar:Raza={
-      nombre:nombre
+  create(nombre: string): Observable<Raza> {
+    const objetoAGuardar: Raza = {
+      nombre: nombre
     };
-    const url= environment.url+ this.nombreModelo;
+    const url = environment.url + this.nombreModelo;
     return this._httpClient
-      .post(url,objetoAGuardar)
-      .pipe(map(r=><Raza>r)); //Castear
+      .post(url, objetoAGuardar)
+      .pipe(map(r => <Raza>r)); //Castear
 
   }
 
@@ -46,12 +47,14 @@ export class RazaRestService {
       .get(url)
       .pipe(map(r => <Raza> r)); // Castear
   }
-  updateOneById(raza:Raza){
+
+  updateOneById(raza: Raza) {
     const url = environment.url + this.nombreModelo
       + '/' + raza.id;
     return this._httpClient
-      .put(url,raza)
-      .pipe(map(r=><Raza> r)) : //Castear
+      .put(url, raza)
+      .pipe(map(r => <Raza> r))
+  : //Castear
 
   }
 }

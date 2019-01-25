@@ -13,6 +13,14 @@ export class RutaGestionUsuariosComponent implements OnInit {
 
   usuarios = [];
 
+  columnas=[
+    {field:'id',header:'identificador'},
+    {field:'nombre',header:'identificador'},
+    {field:'username',header:'identificador'},
+    {field:'',header:'identificador'}
+    {field:'id',header:'acciones'}
+  ];
+
   //Inyeccion de Dependencias
   constructor(
     private readonly _razaRestService: RazaRestService
@@ -24,29 +32,31 @@ export class RutaGestionUsuariosComponent implements OnInit {
     const razas$ = this._razaRestService.fincAll();
     razas$
       .subscribe(
-        (razas: Raza[])=>{
+        (razas: Raza[]) => {
           console.log(razas);
-          this.usuarios=razas;
+          this.usuarios = razas;
         },
-        (error)=>{
-          console.log('Error',error);
+        (error) => {
+          console.log('Error', error);
         }
       )
   }
 
 
-  eliminar(usuario: UsuarioInterface) {
-   razaEliminada$
-    .subscribe(
-      (razaEliminada: Raza)=>{
-        console.log('Se Elimino',razaEliminada);
-        const indice = this.usuarios
-          .findIndex((r)=>r.id===raza.id);
-      },
-      (error)=>{
-        console.error('Error',error);
-      }
-    )
+  eliminar(raza: Raza) {
+    const razaEliminada$ = this._razaRestService.delete(raza.id);
+    razaEliminada$
+      .subscribe(
+        (razaEliminada: Raza) => {
+          console.log('Se Elimino', razaEliminada);
+          const indice = this.usuarios
+            .findIndex((r) => r.id === raza.id);
+          this.usuarios.splice(indice, 1);
+        },
+        (error) => {
+          console.error('Error', error);
+        }
+      )
 
   }
 
